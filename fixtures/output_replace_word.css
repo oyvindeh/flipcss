@@ -1,6 +1,5 @@
-.foo {
+body{direction:rtl;}.foo {
     font-weight: italic; /*!direction-ignore*/
-    padding: 1.2em 3em;
 }
 #bar {
     font-weight: italic;  /*  !direction-ignore  */
@@ -9,8 +8,6 @@
     font-weight:   normal  ;  
 
     .qux {
-        padding: 1em 2em 3em 4em;
-        margin: 1em 0 3em 4em;
         font-weight: normal;
     }
 }

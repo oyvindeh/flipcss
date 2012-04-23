@@ -1,11 +1,11 @@
-.foo {
+body{direction:rtl;}.foo {
     background: url("@{image-url}/foo.bar") no-repeat 100% 0%; /*!direction-ignore  */
 }
 #bar {
     background: url("@{image-url}/foo.bar") no-repeat 90% 80%;
     background: url('@{image-url}/up_arrow.png') no-repeat 5% center;
     background: url('@{image-url}/up_arrow.png') no-repeat center 95%;
-    background: url(/static/desktop/images/btn_edit_comment.png) no-repeat left 0%;
+    background: url(/static/desktop/images/btn_edit_comment.png) no-repeat right 0%;
 
     .baz {
         background: url("@{image-url}/foo.bar") no-repeat 50% 0;

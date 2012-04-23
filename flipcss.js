@@ -54,30 +54,6 @@ var flipcss = {
 
 
     /**
-     * Replace substring in a string
-     *
-     * @private
-     * @param {String} string String to process
-     * @param {String} word1 Word to be replaced
-     * @param {String} word2 New word
-     * @returns Processed string.
-     *
-     * NOTE: This function is stupid; word1 and word2 are expected to be
-     * alphanumeric characters, but no checking is performed, so it may
-     * break on other strings.
-     */
-    _replaceWord: function(string, word1, word2) {
-        // Matches the given word, nothing else, except ignore pattern.
-        // Does not capture anything.
-        var pattern = new RegExp(
-              word1
-            + this._wordMatchIgnorePattern, "g");
-
-        return string.replace(pattern, word2);
-    },
-
-
-    /**
      * Swap left/right values in four-value rules.
      * Example:
      *    margin: 1px 2px 3px 4px   --->   margin: 1px 4px 3px 2px
@@ -254,7 +230,6 @@ module.exports = {
 
         // Do processing
         string = flipcss._swapWords(string, "left", "right");
-
         string = flipcss._swapValues(string);
         string = flipcss._addRule(string, "body", "direction:rtl");
         string = flipcss._swapBackgroundPosition(string);
@@ -294,7 +269,3 @@ module.exports = {
         return string;
     }
 };
-
-if (undefined !== buster) {
-    module.exports.internals = flipcss;
-}
