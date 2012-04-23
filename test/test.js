@@ -21,7 +21,6 @@ buster.assertions.add("pathFlipsTo", {
     refuteMessage: "Expected ${0} not to flip to ${1}, got \"${output}\"."
 });
 
-
 buster.assertions.add("flipsTo", {
     assert: function (input, expectedOutput) {
         this.output = lib.flip(input);
@@ -68,7 +67,7 @@ buster.testCase("Functional tests: Test flipping a stylesheet, with pre-processi
     }
 });
 
-buster.testCase("Test swapping of two words", {
+buster.testCase("Test swapping of words left and right", {
     "test swapping": function() {
         assert.pathFlipsTo("fixtures/input_swap_words.css",
                            "fixtures/output_swap_words.css");
@@ -89,32 +88,28 @@ buster.testCase("Test swapping of values for background position", {
     }
 });
 
-buster.testCase("Add rules", {
-    "test adding CSS rules": function() {
+buster.testCase("Add direction rule", {
+    "test adding direction rule to body": function() {
         var input, output;
 
         input = "body { display: inline-block; }";
         output = "body {direction:rtl; display: inline-block; }";
         assert.flipsTo(input, output);
 
-        input = "foo {} body { display: inline-block; }";
-        output = "foo {} body {direction:rtl; display: inline-block; }";
-        assert.flipsTo(input, output);
-
-        input = "foo {}";
-        output = "body{direction:rtl;}foo {}";
+        input = "foo {} body { display: inline-block; } bar {}";
+        output = "foo {} body {direction:rtl; display: inline-block; } bar {}";
         assert.flipsTo(input, output);
     },
 
-    "test adding rule to non-existing block": function() {
+    "test adding body group with direction rule": function() {
         var input = "div { display: inline-block; }";
         var output = "body{direction:rtl;}div { display: inline-block; }";
         assert.flipsTo(input, output);
     }
 });
 
-buster.testCase("Delete rule", {
-    "test deleting a rtl-only CSS rule using public function": function() {
+buster.testCase("Clean rules", {
+    "test deleting rtl-only CSS rules": function() {
         var func = lib.clean;
 
         var input = fs.readFileSync("fixtures/input_delete_rule.css").toString();
