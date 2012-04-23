@@ -1,0 +1,48 @@
+* {
+  line-height: 1.3em;
+  margin: 0;
+  font-style: normal !important; /* !ltr-only */
+  padding: 0;
+}
+body {
+    background: black;
+}
+.foo {
+    display: inline;
+    float: right;
+    padding: 1em;
+    margin-left: 2em;
+    margin-right: 3em;
+}
+#bar {
+    background: url("@{image-url}/foo.bar") 60% 0 no-repeat;
+    margin: 1px 2px 3px 4px;
+    float: right;
+    clear: left;
+}
+.baz {
+    position: relative;
+    background-position: 80% 10%;
+    right: 1em;
+    clear: both;
+    color: red;
+    font-style: italic;
+    padding: 1em 2em 3em 4em;
+    float: right; /*!direction-ignore*/
+
+    .qux {
+        text-align: right;
+        display: inline-block;
+        margin-right: 2em;
+        padding: 1em 2em 3em 4em; /*!direction-ignore*/
+    }
+}
+.quux .corge {
+    padding-right: 2em;
+    position: absolute;
+    top: 0;
+    left: 10em;
+}
+.grault {
+    display: inline;
+}

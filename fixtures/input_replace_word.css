@@ -1,0 +1,19 @@
+.foo {
+    font-weight: italic; /*!direction-ignore*/
+    padding: 1.2em 3em;
+}
+#bar {
+    font-weight: italic;  /*  !direction-ignore  */
+}
+.baz {
+    font-weight:   italic  ;  
+
+    .qux {
+        padding: 1em 2em 3em 4em;
+        margin: 1em 0 3em 4em;
+        font-weight: normal;
+    }
+}
+.quux .corge {
+    font-weight: italic;
+}

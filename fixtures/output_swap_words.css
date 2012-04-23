@@ -1,0 +1,25 @@
+.foo {
+    float: left;
+    margin-right: 2em;
+    margin-left: 3em;
+}
+#bar {
+    float: left;
+    clear: right;
+    float: right;  /*  !direction-ignore  */
+}
+.baz {
+    left: 1em; /*!direction-ignore*/
+    margin-right: 3em; /*!direction-ignore*/
+    clear: both;
+
+    .qux {
+        text-align: left;
+        margin-left: 2em;
+    }
+}
+.quux .corge {
+    padding-left: 2em;
+    top: 0;
+    right: 10em;
+}

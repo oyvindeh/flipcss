@@ -1,0 +1,24 @@
+.foo {
+    margin: 1px 2px 3px 4px; /*!direction-ignore*/
+    padding: 1.2em 3em;
+}
+#bar {
+    padding: 1px 2px 3px 4px;  /*  !direction-ignore */
+    margin: 1em 3em;
+    padding: 0.3em 0.5em;
+}
+.baz {
+    padding: 0.5em 1em 0.5em 3.2em;
+    margin: 0.5em 1.2em 0.5em 3.2em;
+    margin: 10% 20% 30% 40%;
+    padding: 80% 90%;
+
+    .qux {
+        padding: 1em 2em 3em 4em;
+        margin: 1em 0 3em 4em;
+    }
+}
+.quux .corge {
+    margin: 4em 3em 2em 1em;
+    padding: 0 3em 0 0;
+}
