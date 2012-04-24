@@ -70,7 +70,6 @@ var flipcss = {
               "(padding|margin):\\s*"
             // Optional number and dot, then number and units (0-3 letters),
             // followed by whitespace.
-// TODO: Shouldn't this also match % values?
             + "((?:\\d*\\.)?\\d+[a-z%]{0,3})\\s+"
             + "((?:\\d*\\.)?\\d+[a-z%]{0,3})\\s+"
             + "((?:\\d*\\.)?\\d+[a-z%]{0,3})\\s+"
