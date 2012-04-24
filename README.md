@@ -3,6 +3,10 @@ Create right-to-left (RTL) CSS from left-to-right (LTR) CSS.
 
 The library is written for Node (http://www.nodejs.org/). However, it should be easy to use it in other contexts as well.
 
+### Installation
+
+`npm install flipcss`
+
 ### Usage
 FlipCSS has two public functions:
 
