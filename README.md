@@ -68,13 +68,13 @@ Running the following code...
 > cssLtr = cssflip.clean(css, "ltr");
 >
 > cssRtl = cssflip.clean(css, "rtl");
-> cssRtl = cssflip.flip(cssRtl);```
-
+> cssRtl = cssflip.flip(cssRtl);
 ```
 
 ...will result in this LTR CSS...
 
-```body {
+```
+body {
 }
 .foo {
   float: left;
@@ -83,7 +83,8 @@ Running the following code...
 
 ...and this RTL CSS:
 
-```body {
+```
+body {
   direction:rtl;
   font-style: normal !important; /* !rtl-only */
 }
