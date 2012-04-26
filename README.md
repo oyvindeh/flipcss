@@ -52,13 +52,15 @@ Here are some things to keep in mind when automatically generating RTL CSS:
 ### Example
 If you have a ltr stylesheet (with direction specific rules both for ltr and rtl), and you want to create a rtl stylesheet:
 
-```body {
+```
+body {
   font-style: normal !important; /* !rtl-only */
 }
 .foo {
   float: left;
   font-style: italic; /* !ltr-only */
-}```
+}
+```
 
 Running the following code...
 
@@ -79,7 +81,8 @@ body {
 .foo {
   float: left;
   font-style: italic; /* !ltr-only */
-}```
+}
+```
 
 ...and this RTL CSS:
 
@@ -90,4 +93,5 @@ body {
 }
 .foo {
   float: right;
-}```
+}
+```
