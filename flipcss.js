@@ -114,7 +114,7 @@ var flipcss = {
                 // center, or unit
                 // Unit can be two or three characters long; x or y values with
                 // no unit should not be matched here.
-                pattern = /(?:\d*\.)?\d+[a-z]{2,3}|center|left|right/;
+                pattern = /^(?:(?:\d*\.)?\d+[a-z]{2,3}|center|left|right)$/;
 
                 if (p.match(pattern) !== null) {
                     break;
