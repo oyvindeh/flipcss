@@ -17,7 +17,7 @@ flip() does the RTL flipping. It takes two arguments: The CSS to flip, and a boo
 
 clean() removes direction specific CSS rules. It also takes two arguments: The CSS to clean, and the direction ("rtl" or "ltr"). If you have direction-specific rules in your CSS, you would want to run this both for your RTL CSS and your LTR CSS.
 
-If your webpage supports both LTR and RTL, you will need to have two stylesheets, one for each direction.
+If your web page supports both LTR and RTL, you will need to have two stylesheets, one for each direction.
 
 Please see the example below.
 
@@ -27,7 +27,7 @@ A number of operations are done when you call flip():
 * All instances of the words "left" and "right" are swapped, no matter where they are. (This means you can have image files which are direction specific by adding "left" or "right" in the file names.)
 * Swap horizontal values in margin and padding rules.
 * Swapping horizontal background position (but only for values given as percentages, or given as the keywords "left" and "right").
-* `direction: rtl" is added to the body group of CSS. If there is no body group, it is added.
+* "direction: rtl" is added to the body group of CSS. If there is no body group, it is added.
 
 ### Direction-specific CSS rules
 If you want some rules to only be applied for LTR, you can add a comment after the rule saying `/* !ltr-only */`. For RTL, you can use `/* !rtl-only */`. This is useful for e.g. italic text, which is seldom used in Arabic (some fonts even lack it, making things look very bad). So, you could do something like:
