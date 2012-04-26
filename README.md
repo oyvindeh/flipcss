@@ -70,6 +70,8 @@ Running the following code...
 > cssRtl = cssflip.clean(css, "rtl");
 > cssRtl = cssflip.flip(cssRtl);```
 
+```
+
 ...will result in this LTR CSS...
 
 ```body {
