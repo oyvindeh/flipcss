@@ -9,17 +9,27 @@
     float: right;  /*  !direction-ignore  */
 }
 .baz {
+    float: right !important; /* !direction-ignore */
     left: 1em; /*!direction-ignore*/
     margin-right: 3em; /*!direction-ignore*/
     clear: both;
 
     .qux {
+        float: right; /* !direction-ignore */
+        background: url("arrow-left.png");
         text-align: right;
         margin-right: 2em;
+left: 10em;right:20em;
     }
+}
+.copyright {
+    margin-left: 0em;
 }
 .quux .corge {
     padding-right: 2em;
     top: 0;
     left: 10em;
+}
+.pull-right {
+    float: right !important; /* !direction-ignore */
 }

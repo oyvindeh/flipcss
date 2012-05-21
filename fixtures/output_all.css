@@ -43,6 +43,9 @@ body {direction:rtl;
     top: 0;
     right: 10em;
 }
+.pull-left {
+    float: left !important; /* !direction-ignore */
+}
 .grault {
     display: inline;
 }

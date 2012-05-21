@@ -3,19 +3,8 @@
 
 var flipcss = {
     /**
-     * Pattern matching rules to ignore (marked with "//!direction-ignore").
-     *
-     * This pattern is to be added to other patterns that matches a word inside
-     * a rule (not a full rule).
-     *
-     * (?!y) -> not followed by y.
-     * @private
-     */
-    _wordMatchIgnorePattern: "(?![^\n;]*;\\s*/\\*\\s*!direction-ignore\\s*\\*/)",
-
-
-    /**
-     * Pattern matching rules to ignore (marked with "//!direction-ignore")
+     * Pattern matching rules to ignore (marked with "!direction-ignore" in a
+     * comment)
      *
      * This pattern is to be added to other patterns that matches a full CSS
      * rule.
@@ -23,7 +12,7 @@ var flipcss = {
      * (?!y) -> not followed by y.
      * @private
      */
-    _ruleMatchIgnorePattern: "(?!\\s*/\\*\\s*!direction-ignore\\s*\\*/)",
+    _ruleMatchIgnorePattern: "(?![^\n]*/\\*\\s*!direction-ignore\\s*\\*/)",
 
 
     /**
@@ -44,11 +33,11 @@ var flipcss = {
         // rule is ignored), except ignore pattern.
         // Captures the found word.
         var pattern = new RegExp(
-              "(" + word1 + "|" + word2 + ")"
-            + this._wordMatchIgnorePattern, "g");
+              "([^a-z0-9])(" + word1 + "|" + word2 + ")([^a-z0-9])"
+            + this._ruleMatchIgnorePattern, "g");
 
-        return string.replace(pattern, function(_, word) {
-            return word === word1 ? word2 : word1;
+        return string.replace(pattern, function(_, pre, word, post) {
+            return pre + (word === word1 ? word2 : word1) + post;
         });
     },
 
