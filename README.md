@@ -24,10 +24,11 @@ Please see the example below.
 ### What is done when flipping?
 A number of operations are done when you call flip():
 
-* All instances of the words "left" and "right" are swapped, no matter where they are. (This means you can have image files which are direction specific by adding "left" or "right" in the file names.)
+* All instances of the words "left" and "right" are swapped, except when part of other words (e.g. "copyright"). When separated by other characters than letters and digits (e.g. hypens), they will be swapped: This means you can have image files which are direction specific by adding "left" or "right" in the file names (e.g. "arrow-right.png", which will be changed to "arrow-left.png").
 * Swap horizontal values in margin and padding rules.
 * Swapping horizontal background position (but only for values given as percentages, or given as the keywords "left" and "right").
 * "direction: rtl" is added to the body group of CSS. If there is no body group, it is added.
+
 
 ### Direction-specific CSS rules
 If you want some rules to only be applied for LTR, you can add a comment after the rule saying `/* !ltr-only */`. For RTL, you can use `/* !rtl-only */`. This is useful for e.g. italic text, which is seldom used in Arabic (some fonts even lack it, making things look very bad). So, you could do something like:
