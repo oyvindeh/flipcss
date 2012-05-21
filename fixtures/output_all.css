@@ -44,7 +44,7 @@ body {direction:rtl;
     right: 10em;
 }
 .pull-left {
-    float: left !important; /* !direction-ignore */
+    float: right !important; /* !direction-ignore */
 }
 .grault {
     display: inline;
