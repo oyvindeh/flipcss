@@ -105,11 +105,22 @@ var flipcss = {
         return string.replace(pattern, function(_, prop, d1) {
             var parts = d1.trim().split(/\s+/);
 
-            // Only first of x,y value pair should be inverted, and only if
-            // given as %. So if if something contains unit (which is not %),
-            // or "center", break.
+            // Only first of x,y value pair should be inverted, and only if:
+            // * given as a percentage value
+            // * not inside parenteses
+            var insideParentheses = false;
             for (var i=0; i<parts.length; i++) {
                 var p = parts[i];
+
+                // Ignore everything between parenteses
+                if (-1 < p.indexOf("(") && -1 === p.indexOf(")")) {
+                    insideParentheses = true;
+                    continue;
+                } else if (-1 < p.indexOf(")")) {
+                    insideParentheses = false;
+                    continue;
+                }
+                if (insideParentheses) continue;
 
                 // center, or unit
                 // Unit can be two or three characters long; x or y values with
@@ -123,7 +134,6 @@ var flipcss = {
                     break;
                 }
             }
-
             return prop + ": " + parts.join(" ") + ";";
         });
     },

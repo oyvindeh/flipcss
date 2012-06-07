@@ -6,6 +6,7 @@
     background: url('@{image-url}/up_arrow.png') no-repeat 95% center;
     background: url('@{image-url}/up_arrow.png') no-repeat center 95%;
     background: url(/static/desktop/images/btn_edit_comment.png) no-repeat left 0%;
+    background: linear-gradient(top, #29b8e0 0%, #0669bb 100%);
 
     .baz {
         background: url("@{image-url}/foo.bar") no-repeat 50% 0;
