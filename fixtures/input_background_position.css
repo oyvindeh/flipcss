@@ -19,6 +19,8 @@
         background-position: 30% 10% no-repeat;
         background-position: 40% 10%;
         background-position: 50% 10%;
+        background-position: -50px 0%;
+        background-position: -30% 0%;
         background: url("@{image-url}/foo.bar") no-repeat;
         background: url("@{image-url}/foo.bar");
         background: url("@{image-url}/foo.bar")  1.5% 50px no-repeat;
