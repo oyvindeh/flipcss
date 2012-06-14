@@ -92,27 +92,38 @@ var flipcss = {
             + this._ruleMatchIgnorePattern, "g");
 
         return string.replace(pattern, function(_, prop, d1) {
+            // Split string into parts, and operate on each part.
+            // Only first of x,y value pair should be inverted, and only if:
+            // * given as a positive percentage value, or "0"
+            // * not inside parenteses
             var parts = d1.trim().split(/\s+/);
+            var insideParentheses = false;
 
-            // Only first of x,y value pair should be inverted, and only if
-            // given as %. So if if something contains unit (which is not %),
-            // or "center", break.
             for (var i=0; i<parts.length; i++) {
                 var p = parts[i];
 
-                // center, or unit
-                // Unit can be two or three characters long; x or y values with
-                // no unit should not be matched here.
+                // Ignore everything between parenteses
+                if (-1 < p.indexOf("(") && -1 === p.indexOf(")")) {
+                    insideParentheses = true;
+                    continue;
+                } else if (-1 < p.indexOf(")")) {
+                    insideParentheses = false;
+                    continue;
+                }
+                if (insideParentheses) continue;
+
+                // Pattern to match everything except values with percentages
                 pattern = /^(?:(?:\d*\.)?\d+[a-z]{2,3}|center|left|right)$/;
 
-                if (p.match(pattern) !== null) {
+                // If pattern is matched, or a negative value is found, no
+                // values should be flipped.
+                if (p.match(pattern) !== null || 0 === p.indexOf("-")) {
                     break;
                 } else if (-1 < p.indexOf("%") || "0" === p) {
                     parts[i] = (100 - parseFloat(p)) + "%";
                     break;
                 }
             }
-
             return prop + ": " + parts.join(" ") + ";";
         });
     },
