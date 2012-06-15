@@ -24,6 +24,7 @@ right: 10em;left:20em;
 }
 .copyright {
     margin-right: 0em;
+    background: url("copyright.png");
 }
 .quux .corge {
     padding-left: 2em;
