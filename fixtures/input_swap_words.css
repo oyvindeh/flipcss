@@ -32,5 +32,6 @@ left: 10em;right:20em;
     left: 10em;
 }
 .pull-right {
-    float: right !important; /* !direction-ignore */
+    float: right !important;
+    /* !direction-ignore */
 }

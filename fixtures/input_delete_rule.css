@@ -16,7 +16,8 @@
     .baz {
         text-align: right;
         display: inline-block;
-        font-style: italic; /*!rtl-only */
+        font-style: italic;
+        /*!rtl-only */
         margin-right: 2em;font-style:   italic;  /*   !rtl-only */
         padding: 1em 2em 3em 4em; /*!direction-ignore*/
     }

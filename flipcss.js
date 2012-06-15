@@ -200,6 +200,26 @@ var flipcss = {
         }
 
         return matches;
+    },
+
+    /**
+     * Remove line feeds before meta comments.
+     *
+     * This is useful when CSS has been compiled/automatically generated (e.g.
+     * by Less) and line feeds have been added before the meta comments.
+     *
+     * @param {String} string CSS string
+     * @returns Processed string
+     */
+    _cleanLineFeeds: function(string) {
+        var _ruleMatchIgnorePattern2 = "(/\\*\\s*?(!direction-ignore|!rtl-only|!ltr-only)\\s*?\\*/)";
+
+        var pattern = new RegExp("(;.*?)(\r\n|\n)(\\s*?)"
+            + _ruleMatchIgnorePattern2, "g");
+
+        return string.replace(pattern, function(_, pre, lf, post, ig) {
+            return pre + post + ig;
+        });
     }
 };
 
@@ -226,6 +246,9 @@ module.exports = {
                            );
             }
         }
+
+        // Do preprocessing
+        string = flipcss._cleanLineFeeds(string);
 
         // Do processing
         string = flipcss._swapWords(string, "left", "right");
@@ -260,6 +283,10 @@ module.exports = {
      * @returns Cleaned CSS.
      */
     clean: function(string, dir) {
+        // Do preprocessing
+        string = flipcss._cleanLineFeeds(string);
+
+        // Do processing
         if ("rtl" === dir || "ltr" === dir) {
             // If preprocess rtl, remove ltr-only rules and vice versa.
             var str = (dir === "rtl") ? "ltr" : "rtl";
