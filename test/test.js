@@ -27,7 +27,8 @@ buster.assertions.add("flipsTo", {
         return this.output === expectedOutput;
     },
     assertMessage: "Expected \"${0}\" to flip to \"${1}\", got \"${output}\".",
-    refuteMessage: "Expected \"${0}\" not to flip to \"${1}\", got \"${output}\"."
+    refuteMessage: "Expected \"${0}\" not to flip to \"${1}\","
+        + " got \"${output}\"."
 });
 
 
