@@ -1,3 +1,9 @@
+## 2012.06.18, Version v0.1.4
+
+*   Fix bug: Direction specific rules where swapped, but they are now left
+    unchanged.
+*   Refactor tests.
+
 ## 2012.06.15, Version v0.1.3
 
 *   Change swapping of the words "left" and "right" to be more conservative:
