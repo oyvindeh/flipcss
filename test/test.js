@@ -88,7 +88,7 @@ buster.testCase("Test swapping of values for background position", {
     }
 });
 
-buster.testCase("Add direction rule", {
+buster.testCase("Test direction specific rules", {
     "test adding direction rule to body": function() {
         var input, output;
 
@@ -104,6 +104,32 @@ buster.testCase("Add direction rule", {
     "test adding body group with direction rule": function() {
         var input = "div { display: inline-block; }";
         var output = "body{direction:rtl;}div { display: inline-block; }";
+        assert.flipsTo(input, output);
+    },
+
+    "test that direction-specific rules are left unchanged on flip": function() {
+        var input, output;
+
+        // Left/right swapping:
+        input = "margin: left; /* !rtl-only */";
+        output = "body{direction:rtl;}margin: left; /* !rtl-only */";
+        assert.flipsTo(input, output);
+
+        input = "margin: left; /* !ltr-only */"; // would normally be cleaned
+        output = "body{direction:rtl;}margin: left; /* !ltr-only */";
+        assert.flipsTo(input, output);
+
+        // Background position swapping
+        input = "background: url('@{image-url}/foo.bar') 60% 0 no-repeat;"
+            + "/* !rtl-only */";
+        output = "body{direction:rtl;}background: url('@{image-url}/foo.bar')"
+            + "60% 0 no-repeat; /* !rtl-only */";
+
+        // Margin/padding value swapping
+        input = "padding: 0.5em 1em 0.5em 3.2em; /* !rtl-only */";
+        output = "body{direction:rtl;}padding: 0.5em 1em 0.5em 3.2em;"
+            + "/* !rtl-only */";
+
         assert.flipsTo(input, output);
     }
 });

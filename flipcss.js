@@ -12,7 +12,7 @@ var flipcss = {
      * (?!y) -> not followed by y.
      * @private
      */
-    _ruleMatchIgnorePattern: "(?![^\n]*/\\*\\s*!direction-ignore\\s*\\*/)",
+    _ruleMatchIgnorePattern: "(?![^\n]*/\\*\\s*!(direction-ignore|rtl-only|ltr-only)\\s*\\*/)",
 
 
     /**
