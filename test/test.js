@@ -18,7 +18,7 @@ buster.assertions.add("pathFlipsTo", {
         return this.output === expectedOutput;
     },
     assertMessage: "Expected ${0} to flip to ${1}, got \"${output}\".",
-    refuteMessage: "Expected ${0} not to flip to ${1}, got \"${output}\"."
+    refuteMessage: "Expected ${0} to not flip to ${1}, got \"${output}\"."
 });
 
 buster.assertions.add("flipsTo", {
@@ -27,12 +27,12 @@ buster.assertions.add("flipsTo", {
         return this.output === expectedOutput;
     },
     assertMessage: "Expected \"${0}\" to flip to \"${1}\", got \"${output}\".",
-    refuteMessage: "Expected \"${0}\" not to flip to \"${1}\","
+    refuteMessage: "Expected \"${0}\" to not flip to \"${1}\","
         + " got \"${output}\"."
 });
 
 
-buster.testCase("Functional tests: Test flipping a stylesheet, with pre-processing", {
+buster.testCase("Functional tests: Flip stylesheet w/ pre-processing", {
     setUp: function () {
         sinon.spy(console, "log");
     },
@@ -41,7 +41,7 @@ buster.testCase("Functional tests: Test flipping a stylesheet, with pre-processi
         console.log.restore();
     },
 
-    "test flip without warnings": function() {
+    "flip without warnings": function() {
         var pre_func = lib.clean;
 
         var input = fs.readFileSync("fixtures/input_all.css").toString();
@@ -51,7 +51,7 @@ buster.testCase("Functional tests: Test flipping a stylesheet, with pre-processi
         assert.flipsTo(input, output);
     },
 
-    "test flipping with warnings": function() {
+    "flip with warnings": function() {
         var func = lib.flip;
         var pre_func = lib.clean;
 
@@ -68,29 +68,25 @@ buster.testCase("Functional tests: Test flipping a stylesheet, with pre-processi
     }
 });
 
-buster.testCase("Test swapping of words left and right", {
-    "test swapping": function() {
+buster.testCase("Flip CSS", {
+    "swap words ('left' and 'right')": function() {
         assert.pathFlipsTo("fixtures/input_swap_words.css",
                            "fixtures/output_swap_words.css");
-    }
-});
+    },
 
-buster.testCase("Test swapping of values for margin/padding", {
-    "test swapping": function() {
+    "swap values (margin/padding)": function() {
         assert.pathFlipsTo("fixtures/input_swap_values.css",
                            "fixtures/output_swap_values.css");
-    }
-});
+    },
 
-buster.testCase("Test swapping of values for background position", {
-    "test swapping": function() {
+    "swap background position values": function() {
         assert.pathFlipsTo("fixtures/input_background_position.css",
                            "fixtures/output_background_position.css");
     }
 });
 
-buster.testCase("Test direction specific rules", {
-    "test adding direction rule to body": function() {
+buster.testCase("Direction specific CSS", {
+    "add direction rule to body": function() {
         var input, output;
 
         input = "body { display: inline-block; }";
@@ -102,13 +98,13 @@ buster.testCase("Test direction specific rules", {
         assert.flipsTo(input, output);
     },
 
-    "test adding body group with direction rule": function() {
+    "add body group with direction rule": function() {
         var input = "div { display: inline-block; }";
         var output = "body{direction:rtl;}div { display: inline-block; }";
         assert.flipsTo(input, output);
     },
 
-    "test that direction-specific rules are left unchanged on flip": function() {
+    "direction-specific rules left unchanged on flip": function() {
         var input, output;
 
         // Left/right swapping:
@@ -128,19 +124,21 @@ buster.testCase("Test direction specific rules", {
 
         // Margin/padding value swapping
         input = "padding: 0.5em 1em 0.5em 3.2em; /* !rtl-only */";
-        output = "body{direction:rtl;}padding: 0.5em 1em 0.5em 3.2em;"
-            + "/* !rtl-only */";
+        output = "body{direction:rtl;}padding: 0.5em 1em 0.5em 3.2em; "
+               + "/* !rtl-only */";
 
         assert.flipsTo(input, output);
     }
 });
 
-buster.testCase("Clean rules", {
-    "test deleting rtl-only CSS rules": function() {
+buster.testCase("clean rules", {
+    "delete rtl-only CSS rules": function() {
         var func = lib.clean;
 
-        var input = fs.readFileSync("fixtures/input_delete_rule.css").toString();
-        var output = fs.readFileSync("fixtures/output_delete_rule.css").toString();
+        var input = fs.readFileSync("fixtures/input_delete_rule.css")
+            .toString();
+        var output = fs.readFileSync("fixtures/output_delete_rule.css")
+            .toString();
         assert.equals(func(input, "ltr"), output);
     }
 });
