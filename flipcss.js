@@ -212,10 +212,12 @@ var flipcss = {
      * @returns Processed string
      */
     _cleanLineFeeds: function(string) {
-        var _ruleMatchIgnorePattern2 = "(/\\*\\s*?(!direction-ignore|!rtl-only|!ltr-only)\\s*?\\*/)";
+        var regexp = "(/\\*\\s*?"
+                   + "(!direction-ignore|!rtl-only|!ltr-only)"
+                   + "\\s*?\\*/)";
 
         var pattern = new RegExp("(;.*?)(\r\n|\n)(\\s*?)"
-            + _ruleMatchIgnorePattern2, "g");
+            + regexp, "g");
 
         return string.replace(pattern, function(_, pre, lf, post, ig) {
             return pre + post + ig;
