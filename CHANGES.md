@@ -1,3 +1,10 @@
+## 2012.06.20, Version v0.2.0
+
+*   Add support for rtl to ltr. Adding of CSS direction rule is moved from
+    flip() to clean(). If both functions are used together, this should be
+    backwards compatible. If you only use flip(), be aware that
+    "direction:ltr;" will no longer be added to the output of this function.
+
 ## 2012.06.18, Version v0.1.4
 
 *   Fix bug: Direction specific rules where swapped, but they are now left
