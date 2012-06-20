@@ -195,10 +195,124 @@ buster.testCase("CSS value swapper", {
 });
 
 
-buster.testCase("Flip CSS: Background position values", {
-    "swap background position values": function() {
-        assert.pathFlipsTo("fixtures/input_background_position.css",
-                           "fixtures/output_background_position.css");
+buster.testCase("CSS background position inverter", {
+    "understands background rules": function() {
+        // Basic case, horizontal position should be inverted
+        assert.flipsTo(".foo { background: 0% 100%; }",
+                       ".foo { background: 100% 100%; }");
+        // Only horizontal position given, and it should be inverted
+        assert.flipsTo("background: url('@{image-url}/foo.bar') 30%;",
+                       "background: url('@{image-url}/foo.bar') 70%;");
+        // Color given, horizontal position should be inverted
+        assert.flipsTo(".foo { background: #fff 0% 100%; }",
+                       ".foo { background: #fff 100% 100%; }");
+        // Image url given, horizontal position should be inverted
+        assert.flipsTo(".foo { background: url('/star-12px.png') 0% 100%; }",
+                       ".foo { background: url('/star-12px.png') 100% 100%; }");
+        // Extra keyword no-repeat given, horizontal position should be inverted
+        assert.flipsTo(".foo { background: url('@{image-url}/foo.bar') no-repeat 10% 80%; }",
+                       ".foo { background: url('@{image-url}/foo.bar') no-repeat 90% 80%; }");
+        // Vertical position is keyword, horizontal position should be inverted
+        assert.flipsTo("background: url('@{image-url}/up_arrow.png') no-repeat 95% center;",
+                       "background: url('@{image-url}/up_arrow.png') no-repeat 5% center;");
+        // Horizontal position is center, should be kept unchanged
+        assert.flipsTo("background: url('@{image-url}/up_arrow.png') no-repeat center 95%;",
+                       "background: url('@{image-url}/up_arrow.png') no-repeat center 95%;");
+        // Horizontal position is left, should be inverted to right
+        assert.flipsTo("background: url(/static/desktop/images/btn_edit_comment.png) no-repeat left 0%;",
+                       "background: url(/static/desktop/images/btn_edit_comment.png) no-repeat right 0%;");
+        // Rule is important, horizontal position should be inverted
+        assert.flipsTo("background: url(/static/desktop/images/btn_edit_comment.png) no-repeat 10% 0% !important;",
+                       "background: url(/static/desktop/images/btn_edit_comment.png) no-repeat 90% 0% !important;");
+        // Linear gradient given, should be kept unchanged
+        assert.flipsTo("background: linear-gradient(top, #29b8e0 0%, #0669bb 100%);",
+                       "background: linear-gradient(top, #29b8e0 0%, #0669bb 100%);");
+        // Horizontal position is 50%, should be kept unchanged
+        assert.flipsTo("background: url('@{image-url}/foo.bar') no-repeat 50% 0;",
+                       "background: url('@{image-url}/foo.bar') no-repeat 50% 0;");
+        // Horizontal position is given as a px value (int), should be kept unchanged
+        assert.flipsTo("background: #333 url('@{image-url}/foo.bar') no-repeat 50px 0;",
+                       "background: #333 url('@{image-url}/foo.bar') no-repeat 50px 0;");
+        // Horizontal position is given as a px value (float), should be kept unchanged
+        assert.flipsTo("background: url('@{image-url}/foo.bar') no-repeat 1.3px 0;",
+                       "background: url('@{image-url}/foo.bar') no-repeat 1.3px 0;");
+        // Horizontal position is given only as 0, should be inverted to 100%
+        assert.flipsTo("background: url('@{image-url}/foo.bar') no-repeat 0 50px;",
+                       "background: url('@{image-url}/foo.bar') no-repeat 100% 50px;");
+        // Horizontal position is given only as 0, should be inverted to 100% (keyword no-repeat moved last)
+        assert.flipsTo("background: url('@{image-url}/foo.bar') 0 50% no-repeat;",
+                       "background: url('@{image-url}/foo.bar') 100% 50% no-repeat;");
+        // No horizontal position is given, should be kept unchanged
+        assert.flipsTo("background: url('@{image-url}/foo.bar') no-repeat;",
+                       "background: url('@{image-url}/foo.bar') no-repeat;");
+        // No horizontal position is given, should be kept unchanged
+        assert.flipsTo("background: url('@{image-url}/foo.bar');",
+                       "background: url('@{image-url}/foo.bar');");
+        // No horizontal position is given, should be kept unchanged
+        assert.flipsTo("background: url('@{image-url}/foo.bar') 1.5% 50px no-repeat;",
+                       "background: url('@{image-url}/foo.bar') 98.5% 50px no-repeat;");
+        // Horizontal position given as center keyword, should be kept unchanged
+        assert.flipsTo("background: url('@{image-url}/foo.bar') center center no-repeat;",
+                       "background: url('@{image-url}/foo.bar') center center no-repeat;");
+        // No whitespace, should be inverted
+        assert.flipsTo(".foo{background:url('@{image-url}/foo.bar') no-repeat 10% 80%;}",
+                       ".foo{background: url('@{image-url}/foo.bar') no-repeat 90% 80%;}");
+        // Extra whitespace, should be inverted
+        assert.flipsTo("  .foo  {  background:  url('@{image-url}/foo.bar')  no-repeat  10%  80%;  }  ",
+                       "  .foo  {  background: url('@{image-url}/foo.bar') no-repeat 90% 80%;  }  ");
+    },
+    "understands background-position rules": function() {
+        // Basic case, horizontal position should be inverted
+        assert.flipsTo("background-position: 40% 10%;",
+                       "background-position: 60% 10%;");
+        // Only horizontal position given, and it should be inverted
+        assert.flipsTo("background-position: 70%;",
+                       "background-position: 30%;");
+        // Horizontal position given as 0, and it should be inverted
+        assert.flipsTo("background-position: 0;",
+                       "background-position: 100%;");
+        // Extra keyword no-repeat given, horizontal position should be inverted
+        assert.flipsTo("background-position: no-repeat 20% 10%;",
+                       "background-position: no-repeat 80% 10%;");
+        // Extra keyword no-repeat moved last, horizontal position should be inverted
+        assert.flipsTo("background-position: 30% 10% no-repeat;",
+                       "background-position: 70% 10% no-repeat;");
+        // Horizontal position is 50%, should be kept unchanged
+        assert.flipsTo("background-position: 50% 10%;",
+                       "background-position: 50% 10%;");
+        // Horizontal position is negative (in px), should be kept unchanged
+        assert.flipsTo("background-position: -50px 0%;",
+                       "background-position: -50px 0%;");
+        // Horizontal position is negative (in %), should be kept unchanged
+        assert.flipsTo("background-position: -30% 0%;",
+                       "background-position: -30% 0%;");
+        // No whitespace, horizontal position should be inverted
+        assert.flipsTo("background-position: 10%;",
+                       "background-position: 90%;");
+        // Extra whitespace, horizontal position should be inverted
+        assert.flipsTo("  background-position:  0  ;  ",
+                       "  background-position: 100%;  ");
+    },
+    "understands ignored rules": function() {
+        // Basic case: Nothing should change.
+        assert.flipsTo(".foo { background: #333 100% 0%; /*!direction-ignore */}",
+                       ".foo { background: #333 100% 0%; /*!direction-ignore */}");
+        assert.flipsTo(".foo { background-position: 100% 0%; /*!direction-ignore */}",
+                       ".foo { background-position: 100% 0%; /*!direction-ignore */}");
+        // Complex rule: Nothing should change.
+        assert.flipsTo(".foo { background: url('@{image-url}/foo.bar') no-repeat 100% 0%; /*!direction-ignore */}",
+                       ".foo { background: url('@{image-url}/foo.bar') no-repeat 100% 0%; /*!direction-ignore */}");
+        // No whitespace: Nothing should change
+        assert.flipsTo(".foo{background:url('@{image-url}/foo.bar') no-repeat 100% 0%;/*!direction-ignore*/}",
+                       ".foo{background:url('@{image-url}/foo.bar') no-repeat 100% 0%;/*!direction-ignore*/}");
+        // Extra whitespace: Nothing should change
+        assert.flipsTo("  .foo  {  background:  url('@{image-url}/foo.bar')  no-repeat  100%  0%  ;  /*  !direction-ignore  */  }  ",
+                       "  .foo  {  background:  url('@{image-url}/foo.bar')  no-repeat  100%  0%  ;  /*  !direction-ignore  */  }  ");
+        // Newline before comment: Nothing should change, except newline should be removed.
+        assert.flipsTo(".foo { background: url('@{image-url}/foo.bar') no-repeat 100% 0%;\n /*!direction-ignore */}",
+                       ".foo { background: url('@{image-url}/foo.bar') no-repeat 100% 0%; /*!direction-ignore */}");
+        assert.flipsTo("background-position: 50% 10%;\n /* !direction-ignore*/",
+                       "background-position: 50% 10%; /* !direction-ignore*/");
     }
 });
 
