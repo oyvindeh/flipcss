@@ -1,3 +1,8 @@
+## 2012.06.20, Version v0.2.1
+
+*   Fix bug where value swapping fails for rules with extra keywords (like "!important").
+*   Refactor tests: Get rid of most fixtures.
+
 ## 2012.06.20, Version v0.2.0
 
 *   Add support for rtl to ltr. Adding of CSS direction rule is moved from
