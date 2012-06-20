@@ -1,4 +1,4 @@
-body{direction:rtl;}.foo {
+.foo {
     background: url("@{image-url}/foo.bar") no-repeat 100% 0%; /*!direction-ignore  */
 }
 #bar {

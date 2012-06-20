@@ -80,23 +80,23 @@ buster.testCase("Flip CSS", {
     }
 });
 
-buster.testCase("Direction specific CSS", {
+buster.testCase("Direction specific CSS (cleaning)", {
     "add direction rule to body": function() {
         var input, output;
 
         input = "body { display: inline-block; }";
         output = "body {direction:rtl; display: inline-block; }";
-        assert.flipsTo(input, output);
+        assert.equals(lib.clean(input, "rtl"), output);
 
         input = "foo {} body { display: inline-block; } bar {}";
         output = "foo {} body {direction:rtl; display: inline-block; } bar {}";
-        assert.flipsTo(input, output);
+        assert.equals(lib.clean(input, "rtl"), output);
     },
 
     "add body group with direction rule": function() {
         var input = "div { display: inline-block; }";
         var output = "body{direction:rtl;}div { display: inline-block; }";
-        assert.flipsTo(input, output);
+        assert.equals(lib.clean(input, "rtl"), output);
     },
 
     "direction-specific rules left unchanged on flip": function() {
@@ -104,35 +104,33 @@ buster.testCase("Direction specific CSS", {
 
         // Left/right swapping:
         input = "margin: left; /* !rtl-only */";
-        output = "body{direction:rtl;}margin: left; /* !rtl-only */";
+        output = "margin: left; /* !rtl-only */";
         assert.flipsTo(input, output);
 
         input = "margin: left; /* !ltr-only */"; // would normally be cleaned
-        output = "body{direction:rtl;}margin: left; /* !ltr-only */";
+        output = "margin: left; /* !ltr-only */";
         assert.flipsTo(input, output);
 
         // Background position swapping
         input = "background: url('@{image-url}/foo.bar') 60% 0 no-repeat;"
             + "/* !rtl-only */";
-        output = "body{direction:rtl;}background: url('@{image-url}/foo.bar')"
+        output = "background: url('@{image-url}/foo.bar')"
             + "60% 0 no-repeat; /* !rtl-only */";
 
         // Margin/padding value swapping
         input = "padding: 0.5em 1em 0.5em 3.2em; /* !rtl-only */";
-        output = "body{direction:rtl;}padding: 0.5em 1em 0.5em 3.2em; "
+        output = "padding: 0.5em 1em 0.5em 3.2em; "
                + "/* !rtl-only */";
 
         assert.flipsTo(input, output);
-    }
-});
+    },
 
-buster.testCase("clean rules", {
     "delete rtl-only CSS rules": function() {
         var func = lib.clean;
 
-        var input = fs.readFileSync("fixtures/input_delete_rule.css")
+        var input = fs.readFileSync("fixtures/input_clean.css")
             .toString();
-        var output = fs.readFileSync("fixtures/output_delete_rule.css")
+        var output = fs.readFileSync("fixtures/output_clean.css")
             .toString();
         assert.equals(func(input, "ltr"), output);
     }

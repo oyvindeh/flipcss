@@ -257,7 +257,6 @@ module.exports = {
         // Do processing
         string = flipcss._swapWords(string, "left", "right");
         string = flipcss._swapValues(string);
-        string = flipcss._addRule(string, "body", "direction:rtl");
         string = flipcss._swapBackgroundPosition(string);
 
         return string;
@@ -295,6 +294,7 @@ module.exports = {
             // If preprocess rtl, remove ltr-only rules and vice versa.
             var str = (dir === "rtl") ? "ltr" : "rtl";
             string = flipcss._deleteRule(string, "!" + str + "-only");
+            string = flipcss._addRule(string, "body", "direction:" + dir );
         }
         return string;
     }
