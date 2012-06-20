@@ -5,7 +5,7 @@
         "Torgeir Lorange Østby <torgeilo@opera.com> (https://github.com/torgeilo)"
     ],
     "name": "flipcss",
-    "description": "Flip a CSS file from ltr to rtl.",
+    "description": "Flip CSS from ltr to rtl (and vice versa).",
     "version": "0.2.1",
     "homepage": "https://github.com/operasoftware/flipcss",
     "repository": {
