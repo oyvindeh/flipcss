@@ -119,15 +119,7 @@ buster.testCase("CSS word swapper", {
         assert.flipsTo(".pull-right { float: right; }",
                        ".pull-left { float: left; }");
     },
-    "values": function() {
-        assert.pathFlipsTo("fixtures/input_swap_values.css",
-                           "fixtures/output_swap_values.css");
-    },
-    "(background position values)": function() {
-        assert.pathFlipsTo("fixtures/input_background_position.css",
-                           "fixtures/output_background_position.css");
-    },
-    "(ignored rules)": function() {
+    "understands ignored rules": function() {
         // Basic case: Nothing should change.
         assert.flipsTo(".foo { clear: left; /* !direction-ignore */ }",
                        ".foo { clear: left; /* !direction-ignore */ }");
@@ -147,12 +139,63 @@ buster.testCase("CSS word swapper", {
 });
 
 
-buster.testCase("Flip CSS", {
-    "swap values (margin/padding)": function() {
-        assert.pathFlipsTo("fixtures/input_swap_values.css",
-                           "fixtures/output_swap_values.css");
+buster.testCase("CSS value swapper", {
+    "swaps four value rules": function() {
+        // Second and fourth should swap (ints)
+        assert.flipsTo(".foo { padding: 1em 2em 3em 4em; }",
+                       ".foo { padding: 1em 4em 3em 2em; }");
+        // Check that the basic test also works for margin
+        assert.flipsTo(".foo { margin: 1em 2em 3em 4em; }",
+                       ".foo { margin: 1em 4em 3em 2em; }");
+        // Second and fourth should swap (as percents)
+        assert.flipsTo(".foo { padding: 1% 2% 3% 4%; }",
+                       ".foo { padding: 1% 4% 3% 2%; }");
+        // Second and fourth should swap (floats)
+        assert.flipsTo(".foo { padding: 1.1px 2.2px 3.3px 4.4px; }",
+                       ".foo { padding: 1.1px 4.4px 3.3px 2.2px; }");
+        // Second and fourth should swap (with zeros)
+        assert.flipsTo(".foo { padding: 0 0 0 4.4em; }",
+                       ".foo { padding: 0 4.4em 0 0; }");
+        // Extra keywords, second and fourth should swap (with zeros)
+        assert.flipsTo(".foo { padding: 0 0 0 4.4em !important; }",
+                       ".foo { padding: 0 4.4em 0 0 !important; }");
+        // No whitespace, second and fourth should swap
+        assert.flipsTo(".foo{padding: 1.1em 2.2em 3.3em 4.4em !important;}",
+                       ".foo{padding: 1.1em 4.4em 3.3em 2.2em !important;}");
+        // Whitespace, second and fourth should swap
+        assert.flipsTo("  .foo  {  padding:  1.1em  2.2em  3.3em  4.4em  !important;  }  ",
+                       "  .foo  {  padding: 1.1em 4.4em 3.3em 2.2em !important;  }  ");
+    },
+    "ignores two value rules": function() {
+        // Two values, nothing should change
+        assert.flipsTo(".foo { padding: 1.2em 3em; }",
+                       ".foo { padding: 1.2em 3em; }");
+        // Two values, nothing should change
+        assert.flipsTo(".foo { padding: 0 3em; }",
+                       ".foo { padding: 0 3em; }");
     },
 
+    "understands ignored rules": function() {
+        // Basic case: Nothing should change.
+        assert.flipsTo(".foo { padding: 1em 2em 3em 4em; /* !direction-ignore */ }",
+                       ".foo { padding: 1em 2em 3em 4em; /* !direction-ignore */ }");
+        // Extra keywords: Nothing should change.
+        assert.flipsTo(".foo { padding: 1em 2em 3em 4em !important; /* !direction-ignore */ }",
+                       ".foo { padding: 1em 2em 3em 4em !important; /* !direction-ignore */ }");
+        // Without whitespace: Nothing should change.
+        assert.flipsTo(".foo{padding:1em 2em 3em 4em;/*!direction-ignore*/}",
+                       ".foo{padding:1em 2em 3em 4em;/*!direction-ignore*/}");
+        // Extra whitespace: Nothing should change.
+        assert.flipsTo("  .foo {  padding:  1em  2em  3em  4em  !important;  /*  !direction-ignore  */  }  ",
+                       "  .foo {  padding:  1em  2em  3em  4em  !important;  /*  !direction-ignore  */  }  ");
+        // Newline before comment: Nothing should change, except newline should be removed.
+        assert.flipsTo(".foo { padding:1em 2em 3em 4em !important;\n /* !direction-ignore */ }",
+                       ".foo { padding:1em 2em 3em 4em !important; /* !direction-ignore */ }");
+    }
+});
+
+
+buster.testCase("Flip CSS: Background position values", {
     "swap background position values": function() {
         assert.pathFlipsTo("fixtures/input_background_position.css",
                            "fixtures/output_background_position.css");
