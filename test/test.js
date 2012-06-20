@@ -42,24 +42,19 @@ buster.testCase("Functional tests: Flip stylesheet w/ pre-processing", {
     },
 
     "flip without warnings": function() {
-        var pre_func = lib.clean;
-
         var input = fs.readFileSync("fixtures/input_all.css").toString();
         var output = fs.readFileSync("fixtures/output_all.css").toString();
 
-        input = pre_func(input, "rtl");
+        input = lib.clean(input, "rtl");
         assert.flipsTo(input, output);
     },
 
     "flip with warnings": function() {
-        var func = lib.flip;
-        var pre_func = lib.clean;
-
         var input = fs.readFileSync("fixtures/input_all.css").toString();
         var output = fs.readFileSync("fixtures/output_all.css").toString();
 
-        input = pre_func(input, "rtl");
-        assert.equals(func(input, true), output);
+        input = lib.clean(input, "rtl");
+        assert.equals(lib.flip(input, true), output);
 
         // Check that warnings are given
         assert(console.log.calledTwice);
