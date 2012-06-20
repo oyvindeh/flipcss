@@ -64,11 +64,14 @@ var flipcss = {
             + "((?:\\d*\\.)?\\d+[a-z%]{0,3})\\s+"
             + "((?:\\d*\\.)?\\d+[a-z%]{0,3})\\s+"
             + "((?:\\d*\\.)?\\d+[a-z%]{0,3})\\s+"
-            + "((?:\\d*\\.)?\\d+[a-z%]{0,3})\\s*;"
+            + "((?:\\d*\\.)?\\d+[a-z%]{0,3})\\s*"
+            + "(.*);"
             + this._ruleMatchIgnorePattern, "g");
 
-        return string.replace(pattern, function(_, prop, d1, d2, d3, d4) {
-            return prop + ": " + d1 + " " + d4 + " " + d3 + " " + d2 + ";";
+        return string.replace(pattern, function(_, prop, d1, d2, d3, d4, d5) {
+            return prop + ": " + d1 + " " + d4 + " " + d3 + " " + d2
+                + (d5 ? " " + d5 : "")
+                + ";";
         });
     },
 
