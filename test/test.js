@@ -119,7 +119,7 @@ buster.testCase("CSS word swapper", {
         assert.flipsTo(".pull-right { float: right; }",
                        ".pull-left { float: left; }");
     },
-    "understands ignored rules": function() {
+    "leaves ignored rules alone": function() {
         // Basic case: Nothing should change.
         assert.flipsTo(".foo { clear: left; /* !direction-ignore */ }",
                        ".foo { clear: left; /* !direction-ignore */ }");
@@ -175,7 +175,7 @@ buster.testCase("CSS value swapper", {
                        ".foo { padding: 0 3em; }");
     },
 
-    "understands ignored rules": function() {
+    "leaves ignored rules alone": function() {
         // Basic case: Nothing should change.
         assert.flipsTo(".foo { padding: 1em 2em 3em 4em; /* !direction-ignore */ }",
                        ".foo { padding: 1em 2em 3em 4em; /* !direction-ignore */ }");
@@ -293,7 +293,7 @@ buster.testCase("CSS background position inverter", {
         assert.flipsTo("  background-position:  0  ;  ",
                        "  background-position: 100%;  ");
     },
-    "understands ignored rules": function() {
+    "leaves ignored rules alone": function() {
         // Basic case: Nothing should change.
         assert.flipsTo(".foo { background: #333 100% 0%; /*!direction-ignore */}",
                        ".foo { background: #333 100% 0%; /*!direction-ignore */}");
@@ -317,8 +317,8 @@ buster.testCase("CSS background position inverter", {
 });
 
 
-buster.testCase("Direction specific CSS (cleaning)", {
-    "add direction rule to body": function() {
+buster.testCase("CSS cleaner", {
+    "can add direction rule to body": function() {
         var input, output;
 
         input = "body { display: inline-block; }";
@@ -329,14 +329,12 @@ buster.testCase("Direction specific CSS (cleaning)", {
         output = "foo {} body {direction:rtl; display: inline-block; } bar {}";
         assert.equals(lib.clean(input, "rtl"), output);
     },
-
-    "add body group with direction rule": function() {
+    "can add body group with direction rule": function() {
         var input = "div { display: inline-block; }";
         var output = "body{direction:rtl;}div { display: inline-block; }";
         assert.equals(lib.clean(input, "rtl"), output);
     },
-
-    "direction-specific rules left unchanged on flip": function() {
+    "leaves direction-specific rules unchanged on flip": function() {
         var input, output;
 
         // Left/right swapping:
@@ -349,26 +347,20 @@ buster.testCase("Direction specific CSS (cleaning)", {
         assert.flipsTo(input, output);
 
         // Background position swapping
-        input = "background: url('@{image-url}/foo.bar') 60% 0 no-repeat;"
-            + "/* !rtl-only */";
-        output = "background: url('@{image-url}/foo.bar')"
-            + "60% 0 no-repeat; /* !rtl-only */";
+        input = "background: url('@{image-url}/foo.bar') 60% 0 no-repeat; /* !rtl-only */";
+        output = "background: url('@{image-url}/foo.bar') 60% 0 no-repeat; /* !rtl-only */";
 
         // Margin/padding value swapping
         input = "padding: 0.5em 1em 0.5em 3.2em; /* !rtl-only */";
         output = "padding: 0.5em 1em 0.5em 3.2em; "
                + "/* !rtl-only */";
-
         assert.flipsTo(input, output);
     },
-
-    "delete rtl-only CSS rules": function() {
+    "deletes rtl-only CSS rules": function() {
         var func = lib.clean;
 
-        var input = fs.readFileSync("fixtures/input_clean.css")
-            .toString();
-        var output = fs.readFileSync("fixtures/output_clean.css")
-            .toString();
+        var input = fs.readFileSync("fixtures/input_clean.css").toString();
+        var output = fs.readFileSync("fixtures/output_clean.css").toString();
         assert.equals(func(input, "ltr"), output);
     }
 });
