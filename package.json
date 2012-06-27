@@ -13,6 +13,9 @@
         "url": "git@github.com:operasoftware/flipcss.git"
     },
     "main": "./flipcss.js",
+    "bin": {
+        "flipcss": "bin/flipcss.bin.js"
+    },
     "keywords": [
         "css",
         "rtl",
