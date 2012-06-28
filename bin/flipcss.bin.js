@@ -5,6 +5,12 @@
 var flipcss = require('../flipcss');
 var fs = require('fs');
 
+/**
+ * Handle command line arguments
+ * @param {Array} argv Command line arguments (with commands stripped off)
+ * @throws {InvalidArgumentsError} If invalid argument(s)
+ * @returns {Object} with options, or null.
+ */
 function handleArgv(argv) {
     // Usage info
     var usage = ["Usage: node flipcss [OPTION] ... INFILE OUTFILE",
@@ -59,7 +65,7 @@ function handleArgv(argv) {
 
     // Invalid arguments
     if (2 < optCount || argv.length !== 2) {
-        throw { name: "InvalidOptionError",
+        throw { name: "InvalidArgumentsError",
                 message: "Invalid option(s).\n" + usage.toString() };
     }
 
@@ -71,6 +77,13 @@ function handleArgv(argv) {
 }
 
 
+/**
+ * Transform CSS from LTR>RTL or vice versa.
+ * @param {String} css CSS to transform
+ * @param {String} direction Direction ("ltr", "rtl", or empty/"none")
+ * @param {Boolean} warnings Output warnings
+ * @return {String} Processed CSS
+ */
 function transform(css, direction, warnings) {
     if (direction === "ltr" || direction === "rtl") {
         css = flipcss.clean(css, direction);
@@ -79,7 +92,9 @@ function transform(css, direction, warnings) {
     return flipcss.flip(css, warnings);
 }
 
-
+/**
+ * Main.
+ */
 function main() {
     var res;
     try {
@@ -98,7 +113,7 @@ function main() {
     fs.readFile(infileName, "utf-8", function (err, data) {
         if (err) {
             console.log(err.message);
-            process.exit(1); // Error
+            process.exit(1);
         }
 
         var outfile = fs.openSync(outfileName, "w");

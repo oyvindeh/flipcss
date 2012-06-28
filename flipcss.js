@@ -24,7 +24,7 @@ var flipcss = {
      * @param {String} string String to process
      * @param {String} word1 Word to swap with word2
      * @param {String} word2 Word to swap with word1
-     * @returns Processed string.
+     * @returns {String} Processed string.
      *
      * NOTE: This function is stupid; word1 and word2 are expected to be
      * alphanumeric characters, but no checking is performed, so it may
@@ -51,7 +51,7 @@ var flipcss = {
      *
      * @private
      * @param {String} string String to process
-     * @returns Processed string
+     * @returns {String} Processed string
      */
     _swapValues: function(string) {
         // Matches pattern and margin rules, including semicolon and ignore
@@ -87,7 +87,7 @@ var flipcss = {
      *
      * @private
      * @param {String} string String to process
-     * @returns Processed string
+     * @returns {String} Processed string
      */
     _swapBackgroundPosition: function(string) {
         // Matches background and background-position rules.
@@ -145,7 +145,7 @@ var flipcss = {
      * @param {String} string String to process.
      * @param {String} group CSS group to insert into
      * @param {String} rule CSS rule to insert
-     * @returns Processed string
+     * @returns {String} Processed string
      */
 
     _addRule: function(string, group, rule) {
@@ -179,7 +179,7 @@ var flipcss = {
      *
      * @param {String} string CSS string
      * @param {String} tail Trailing comment
-     * @returns Processed string
+     * @returns {String} Processed string
      */
     _deleteRule: function(string, tail) {
         var regexp = new RegExp("[^;:\\s]+\\s*:\\s*[^;:]+;\\s*/\\*\\s*"
@@ -193,7 +193,7 @@ var flipcss = {
      *
      * @private
      * @param {String} string String to process
-     * @returns Array containing index of matches
+     * @returns {Array} Indexes of matches
      */
     _findInline: function(string) {
         var matches = []
@@ -214,7 +214,7 @@ var flipcss = {
      * by Less) and line feeds have been added before the meta comments.
      *
      * @param {String} string CSS string
-     * @returns Processed string
+     * @returns {String} Processed string
      */
     _cleanLineFeeds: function(string) {
         var regexp = "(/\\*\\s*?"
@@ -239,7 +239,7 @@ module.exports = {
      *
      * @param {String} string CSS string to flip.
      * @param {Boolean} warnings Output warnings.
-     * @returns Flipped CSS.
+     * @returns {String} Flipped CSS.
      */
     flip: function(string, warnings) {
         if (!warnings) warnings = false;
@@ -286,7 +286,7 @@ module.exports = {
      *
      * @param {String} string CSS string to clean.
      * @param {String} dir Direction of the output ("rtl" or "ltr").
-     * @returns Cleaned CSS.
+     * @returns {String} Cleaned CSS.
      */
     clean: function(string, dir) {
         // Do preprocessing

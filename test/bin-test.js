@@ -79,12 +79,12 @@ buster.testCase("Command line arguments parser", {
         // Missing input/output file
         argv = ["-r", "-w", "style.css"];
         assert.exception(function() { lib.handleArgv(argv); },
-                         "InvalidOptionError");
+                         "InvalidArgumentsError");
 
         // Missing input and output file
         argv = ["-r", "-w"];
         assert.exception(function() { lib.handleArgv(argv); },
-                         "InvalidOptionError");
+                         "InvalidArgumentsError");
     },
     "gives error when too many arguments": function() {
         var expected = false;
@@ -94,12 +94,12 @@ buster.testCase("Command line arguments parser", {
         // Extra option
         argv = ["-w", "-r", "-a", "style.css", "style-rtl.css"];
         assert.exception(function() { lib.handleArgv(argv); },
-                         "InvalidOptionError");
+                         "InvalidArgumentsError");
 
         // Extra trailing options
         argv = ["-w", "-r", "style.css", "style-rtl.css", "foo", "bar"];
         assert.exception(function() { lib.handleArgv(argv); },
-                         "InvalidOptionError");
+                         "InvalidArgumentsError");
     },
     "gives typeof on invalid arguments": function() {
         var expected = false;
@@ -109,17 +109,17 @@ buster.testCase("Command line arguments parser", {
         // Invalid argument
         argv = ["-r", "-a", "style.css", "style-rtl.css"];
         assert.exception(function() { lib.handleArgv(argv); },
-                         "InvalidOptionError");
+                         "InvalidArgumentsError");
 
         // Invalid argument
         argv = ["-a", "-r", "style.css", "style-rtl.css"];
         assert.exception(function() { lib.handleArgv(argv); },
-                         "InvalidOptionError");
+                         "InvalidArgumentsError");
 
         // Several invalid arguments
         argv = ["-a", "-r", "-b", "style.css", "style-rtl.css"];
         assert.exception(function() { lib.handleArgv(argv); },
-                         "InvalidOptionError");
+                         "InvalidArgumentsError");
     },
     "understands request for usage info": function() {
         var argv, result;
