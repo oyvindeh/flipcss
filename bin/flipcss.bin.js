@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+/* jshint: */
+/*global module console process assert require fs:true sinon:true */
 
 var flipcss = require('../flipcss');
 var fs = require('fs');
