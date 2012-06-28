@@ -47,30 +47,44 @@ buster.testCase("Command line arguments parser", {
         var result = lib.handleArgv(argv);
         assert.equals(expected, result);
     },
+    "understands valid keyword arguments (no direction)": function() {
+        var expected = {
+            direction: "none",
+            warnings: true,
+            input: "style.css",
+            output: "style-rtl.css"
+        };
+
+        var argv = ["-w", "style.css", "style-rtl.css"];
+        var result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+    },
+    "understands valid keyword arguments (no direction, no warnings)": function() {
+        var expected = {
+            direction: "none",
+            warnings: false,
+            input: "style.css",
+            output: "style-rtl.css"
+        };
+
+        var argv = ["style.css", "style-rtl.css"];
+        var result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+    },
     "gives error when too few arguments": function() {
         var expected = false;
 
         var argv, result;
 
-        // Missing direction
-        argv = ["-w", "style.css", "style-rtl.css"];
-        result = lib.handleArgv(argv);
-        assert(typeof result === "string");
-
-        // Missing direction
-        argv = ["--warnings", "style.css", "style-rtl.css"];
-        result = lib.handleArgv(argv);
-        assert(typeof result === "string");
-
         // Missing input/output file
         argv = ["-r", "-w", "style.css"];
-        result = lib.handleArgv(argv);
-        assert(typeof result === "string");
+        assert.exception(function() { lib.handleArgv(argv); },
+                         "InvalidOptionError");
 
         // Missing input and output file
         argv = ["-r", "-w"];
-        result = lib.handleArgv(argv);
-        assert(typeof result === "string");
+        assert.exception(function() { lib.handleArgv(argv); },
+                         "InvalidOptionError");
     },
     "gives error when too many arguments": function() {
         var expected = false;
@@ -116,6 +130,46 @@ buster.testCase("Command line arguments parser", {
 
         argv = ["--help"];
         result = lib.handleArgv(argv);
-        assert(typeof result === "string");
+        assert.equals(null, result);
+    }
+});
+
+
+buster.testCase("Css transformer", {
+    setUp: function () {
+        sinon.spy(console, "log");
+    },
+
+    tearDown: function () {
+        console.log.restore();
+    },
+    "can flip css without direction specified": function() {
+        var data = ".foo{float:left;}";
+        var expected = ".foo{float:right;}";
+        var result = lib.transform(data, "none", true);
+        assert.equals(result, expected);
+    },
+    "can output warnings": function() {
+        var expected, result;
+
+        var data = ".foo{float:left;}";
+
+        expected = "body{direction:ltr;}.foo{float:right;}";
+        result = lib.transform(data, "ltr", true);
+        assert.equals(result, expected);
+
+        expected = "body{direction:rtl;}.foo{float:right;}";
+        result = lib.transform(data, "rtl", true);
+        assert.equals(result, expected);
+    },
+    "can flip css with direction specified": function() {
+        var data = ".foo{float:right;display:inline;}";
+
+        lib.transform(data, "ltr", true);
+
+        // Check that warnings are given
+        assert(console.log.calledOnce);
+        var spyCall = console.log.getCall(0);
+        assert(-1 < spyCall.args[0].indexOf("Warning: Inline"));
     }
 });

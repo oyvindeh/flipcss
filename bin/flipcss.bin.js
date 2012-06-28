@@ -70,34 +70,50 @@ function handleArgv(argv) {
            };
 }
 
-res = handleArgv(process.argv.slice(2));
 
-if (typeof res === "string") {
-    console.log(res.toString());
-//    process.exit(2);
-} else {
-    console.log("o hai!")
+function transform(css, direction, warnings) {
+    if (direction === "ltr" || direction === "rtl") {
+        css = flipcss.clean(css, direction);
+    }
+
+    return flipcss.flip(css, warnings);
 }
 
 
-// TODO: Fix this...?
-module.exports = {handleArgv: handleArgv};
-
-
-return;
-
-
-
-fs.readFile('ding.css', "utf-8", function (err, data) {
-    if (err) {
+function main() {
+    var res;
+    try {
+        res = handleArgv(process.argv.slice(2));
+        if (!res) {
+            process.exit(0);
+        }
+    } catch (err) {
         console.log(err.message);
-//        throw err;
-        process.exit(1); // Error
+        process.exit(2);
     }
 
-    var o = fs.openSync("dong.css", "w");
-    fs.write(o, flipcss.flip(data));
-    fs.close(o);
-});
+    var infileName = res.input;
+    var outfileName = res.output;
 
-process.exit(0); // Success
+    fs.readFile(infileName, "utf-8", function (err, data) {
+        if (err) {
+            console.log(err.message);
+            process.exit(1); // Error
+        }
+
+        var outfile = fs.openSync(outfileName, "w");
+
+        var outdata = transform(data, res.direction, res.warnings);
+
+        fs.write(outfile, outdata);
+        fs.close(outfile);
+    });
+}
+
+
+if (require.main === module) {
+    main();
+} else {
+    module.exports = {handleArgv: handleArgv,
+                      transform: transform};
+}
