@@ -79,13 +79,13 @@ buster.testCase("Command line arguments parser", {
 
         // Extra option
         argv = ["-w", "-r", "-a", "style.css", "style-rtl.css"];
-        result = lib.handleArgv(argv);
-        assert(typeof result === "string");
+        assert.exception(function() { lib.handleArgv(argv); },
+                         "InvalidOptionError");
 
         // Extra trailing options
         argv = ["-w", "-r", "style.css", "style-rtl.css", "foo", "bar"];
-        result = lib.handleArgv(argv);
-        assert(typeof result === "string");
+        assert.exception(function() { lib.handleArgv(argv); },
+                         "InvalidOptionError");
     },
     "gives typeof on invalid arguments": function() {
         var expected = false;
@@ -94,13 +94,13 @@ buster.testCase("Command line arguments parser", {
 
         // Invalid argument
         argv = ["-r", "-a", "style.css", "style-rtl.css"];
-        result = lib.handleArgv(argv);
-        assert(typeof result === "string");
+        assert.exception(function() { lib.handleArgv(argv); },
+                         "InvalidOptionError");
 
         // Invalid argument
         argv = ["-a", "-r", "style.css", "style-rtl.css"];
-        result = lib.handleArgv(argv);
-        assert(typeof result === "string");
+        assert.exception(function() { lib.handleArgv(argv); },
+                         "InvalidOptionError");
 
         // Several invalid arguments
         argv = ["-a", "-r", "-b", "style.css", "style-rtl.css"];

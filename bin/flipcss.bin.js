@@ -58,8 +58,9 @@ function handleArgv(argv) {
     }
 
     // Invalid arguments
-    if (2 < optCount || argv.length !== 2 || !dir) {
-        return usage;
+    if (2 < optCount || argv.length !== 2) {
+        throw { name: "InvalidOptionError",
+                message: "Invalid option(s).\n" + usage.toString() };
     }
 
     return {direction: direction,
