@@ -72,10 +72,10 @@ Running the following code...
 ```
 > css = "..."
 >
-> cssLtr = cssflip.clean(css, "ltr");
+> cssLtr = flipcss.clean(css, "ltr");
 >
-> cssRtl = cssflip.clean(css, "rtl");
-> cssRtl = cssflip.flip(cssRtl);
+> cssRtl = flipcss.clean(css, "rtl");
+> cssRtl = flipcss.flip(cssRtl);
 ```
 
 ...will result in this LTR CSS...
