@@ -13,7 +13,7 @@ if (typeof require !== "undefined") {
 buster.testCase("Command line arguments parser", {
     "understands valid short form arguments (warnings)": function() {
         var expected = {
-            dir: "rtl",
+            direction: "rtl",
             warnings: true,
             input: "style.css",
             output: "style-rtl.css"
@@ -25,7 +25,7 @@ buster.testCase("Command line arguments parser", {
     },
     "understands valid short form arguments (no warnings)": function() {
         var expected = {
-            dir: "ltr",
+            direction: "ltr",
             warnings: false,
             input: "style.css",
             output: "style-rtl.css"
@@ -37,7 +37,7 @@ buster.testCase("Command line arguments parser", {
     },
     "understands valid keyword arguments": function() {
         var expected = {
-            dir: "rtl",
+            direction: "rtl",
             warnings: true,
             input: "style.css",
             output: "style-rtl.css"

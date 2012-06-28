@@ -6,6 +6,7 @@ var flipcss = require('../flipcss');
 var fs = require('fs');
 
 function handleArgv(argv) {
+    // Usage info
     var usage = ["Usage: node flipcss [OPTION] ... INFILE OUTFILE",
                  "  -r, --rtl        Flip CSS LTR>RTL",
                  "  -l, --ltr        Flip CSS RTL>LTR",
@@ -20,7 +21,8 @@ function handleArgv(argv) {
         return null;
     }
 
-    var dir = ""
+    // Vars
+    var direction = "none"
     ,   warnings = false
     ,   validArgs = {"-r": "rtl",
                      "--rtl": "rtl",
@@ -31,6 +33,7 @@ function handleArgv(argv) {
                     }
     ,   optCount = 0;
 
+    // Process args
     for (var arg in validArgs) {
         if(validArgs.hasOwnProperty(arg)) {
             var i = argv.indexOf(arg);
@@ -41,10 +44,10 @@ function handleArgv(argv) {
 
                 switch (validArgs[arg]) {
                 case 'rtl':
-                    dir = "rtl";
+                    direction = "rtl";
                     break;
                 case 'ltr':
-                    dir = "ltr";
+                    direction = "ltr";
                     break;
                 case 'warnings':
                     warnings = true;
@@ -59,7 +62,7 @@ function handleArgv(argv) {
         return usage;
     }
 
-    return {dir: dir,
+    return {direction: direction,
             warnings: warnings,
             input: argv[0],
             output: argv[1]
