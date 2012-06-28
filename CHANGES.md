@@ -1,3 +1,7 @@
+## 2012.06.28, Version v0.2.2
+
+*   Add command line support.
+
 ## 2012.06.20, Version v0.2.1
 
 *   Fix bug where value swapping fails for rules with extra keywords (like "!important").
