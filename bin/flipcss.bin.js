@@ -9,9 +9,16 @@ function handleArgv(argv) {
     var usage = ["Usage: node flipcss [OPTION] ... INFILE OUTFILE",
                  "  -r, --rtl        Flip CSS LTR>RTL",
                  "  -l, --ltr        Flip CSS RTL>LTR",
-                 "  -w, --warnings   Output warnings"
+                 "  -w, --warnings   Output warnings",
+                 "  -h, --help       Usage information",
+                 "If no direction is given, the CSS is just flipped."
                 ].join("\n");
 
+    // Asked for help
+    if (argv[0] === "-h" || argv[0] === "--help") {
+        console.log(usage.toString());
+        return null;
+    }
 
     var dir = ""
     ,   warnings = false

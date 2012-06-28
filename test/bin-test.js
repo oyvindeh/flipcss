@@ -104,6 +104,17 @@ buster.testCase("Command line arguments parser", {
 
         // Several invalid arguments
         argv = ["-a", "-r", "-b", "style.css", "style-rtl.css"];
+        assert.exception(function() { lib.handleArgv(argv); },
+                         "InvalidOptionError");
+    },
+    "understands request for usage info": function() {
+        var argv, result;
+
+        argv = ["-h"];
+        result = lib.handleArgv(argv);
+        assert.equals(null, result);
+
+        argv = ["--help"];
         result = lib.handleArgv(argv);
         assert(typeof result === "string");
     }
