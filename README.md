@@ -13,7 +13,7 @@ Flipcss can also be used as a command line tool.
 
 ```
 $ flipcss -h
-Usage: flipcss [OPTION] ... INFILE OUTFILE
+Usage: flipcss [OPTION]... INFILE OUTFILE
   -r, --rtl        Flip CSS LTR>RTL
   -l, --ltr        Flip CSS RTL>LTR
   -w, --warnings   Output warnings
