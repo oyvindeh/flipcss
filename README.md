@@ -11,14 +11,15 @@ Flipcss can also be used as a command line tool.
 
 ### Usage (command line)
 
-`$ flipcss -h
+```
+$ flipcss -h
 Usage: node flipcss [OPTION] ... INFILE OUTFILE
   -r, --rtl        Flip CSS LTR>RTL
   -l, --ltr        Flip CSS RTL>LTR
   -w, --warnings   Output warnings
   -h, --help       Usage information
 If no direction is given, the CSS is just flipped.
-`
+```
 
 ### Usage (as library)
 FlipCSS has two public functions:
