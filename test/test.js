@@ -6,7 +6,7 @@ sinon = require("sinon");
 
 if (typeof require !== "undefined") {
     var buster = require("buster");
-    var lib = require("../flipcss");
+    var lib = require("../lib/flipcss");
 }
 
 

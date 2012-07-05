@@ -2,7 +2,7 @@
 /* jshint: */
 /*global module console process assert require fs:true sinon:true */
 
-var flipcss = require('../flipcss');
+var flipcss = require('../lib/flipcss');
 var fs = require('fs');
 
 /**

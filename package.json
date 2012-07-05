@@ -12,7 +12,7 @@
         "type": "git",
         "url": "git@github.com:operasoftware/flipcss.git"
     },
-    "main": "./flipcss.js",
+    "main": "./lib/flipcss.js",
     "bin": {
         "flipcss": "bin/flipcss.bin.js"
     },
