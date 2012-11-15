@@ -5,6 +5,8 @@ The library is written for Node (http://www.nodejs.org/). However, it should be 
 
 FlipCSS can also be used as a command line tool.
 
+PLEASE NOTE: This library will be obsoleted by [CSS3 Writing Modes](http://dev.w3.org/csswg/css3-writing-modes/).
+
 ### Installation
 
 `npm install flipcss`
