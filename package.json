@@ -6,7 +6,7 @@
     ],
     "name": "flipcss",
     "description": "Flip CSS from ltr to rtl (and vice versa).",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "homepage": "https://github.com/operasoftware/flipcss",
     "repository": {
         "type": "git",

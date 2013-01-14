@@ -10,7 +10,7 @@ body{direction:ltr;}.foo {
     background: url("@{image-url}/foo.bar") 60% 0 no-repeat;
     margin: 1px 2px 3px 4px;
     font-style: italic; /* !ltr-only */
-    float: right;
+    
     clear: left;
 
     .baz {
