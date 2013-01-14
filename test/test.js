@@ -313,6 +313,10 @@ buster.testCase("CSS background position inverter", {
                        ".foo { background: url('@{image-url}/foo.bar') no-repeat 100% 0%; /*!direction-ignore */}");
         assert.flipsTo("background-position: 50% 10%;\n /* !direction-ignore*/",
                        "background-position: 50% 10%; /* !direction-ignore*/");
+
+        // Extra comment in meta comment.
+        assert.flipsTo(".foo { background: #333 100% 0%; /*!direction-ignore comment */}",
+                       ".foo { background: #333 100% 0%; /*!direction-ignore comment */}");
     }
 });
 
@@ -354,6 +358,11 @@ buster.testCase("CSS cleaner", {
         input = "padding: 0.5em 1em 0.5em 3.2em; /* !rtl-only */";
         output = "padding: 0.5em 1em 0.5em 3.2em; "
                + "/* !rtl-only */";
+        assert.flipsTo(input, output);
+
+        // Allowing extra text in meta comment:
+        input = "margin: left; /* !rtl-only comment */";
+        output = "margin: left; /* !rtl-only comment */";
         assert.flipsTo(input, output);
     },
     "deletes rtl-only CSS rules": function() {

@@ -49,3 +49,7 @@ body {
 .grault {
     display: inline;
 }
+.comment {
+    float: right !important; /* !direction-ignore comment */
+    background: red;
+}

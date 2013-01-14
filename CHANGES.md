@@ -1,3 +1,7 @@
+## 2013.01.14, Version v0.2.3
+
+*   Add support for extra text in a meta comment, e.g. "/* !rtl-only some extra text */"
+
 ## 2012.06.28, Version v0.2.2
 
 *   Add command line support.
