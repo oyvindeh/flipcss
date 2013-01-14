@@ -1,9 +1,9 @@
 ## FlipCSS library
 Create right-to-left (RTL) CSS from left-to-right (LTR) CSS, and vice versa.
 
-The library is written for Node (http://www.nodejs.org/). However, it should be easy to use it in other contexts as well.
+The library is written for [Node](http://www.nodejs.org/). However, it should be easy to use it in other contexts as well. FlipCSS can be used from the command line.
 
-FlipCSS can also be used as a command line tool.
+PLEASE NOTE: This library will be obsoleted by [CSS3 Writing Modes](http://dev.w3.org/csswg/css3-writing-modes/).
 
 ### Installation
 
