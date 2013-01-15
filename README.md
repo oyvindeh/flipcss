@@ -79,15 +79,17 @@ Another example is that LESS removes duplicate comments. So, if you have several
 
 To get around this, the meta information comments inside a block must be unique, so that LESS does not strip them away. FlipCSS allows you to add text after a meta information, so you could do something like this:
 
-```img.overlay {
+```
+img.overlay {
 -webkit-transform: scaleX(-1); /* !rtl-only 1 */
 -moz-transform: scaleX(-1); /* !rtl-only 2 */
 -ie-transform: scaleX(-1); /* !rtl-only 3 */
 -o-transform: scaleX(-1); /* !rtl-only 4 */
 transform: scaleX(-1); /* !rtl-only 5 */
-}```
+}
+```
 
-#### RTL languages
+#### What languages are RTL?
 The following languages are written right-to-left: Arabic (ar), Farsi/Persian (fa), Urdu (ur), Hebrew (he), and Yiddish (yi).
 
 ### Example
