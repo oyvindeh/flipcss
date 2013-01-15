@@ -61,12 +61,34 @@ If you want a certain CSS rule not to be flipped by the FlipCSS processing (e.g.
 
 If you want larger groups of CSS rules to be ignored, you should keep them in separate CSS files.
 
-### Some tips
-Here are some things to keep in mind when automatically generating RTL CSS:
+### Tips & Tricks
+Below are some things to keep in mind when automatically generating RTL CSS;
 
-* Be careful when explicitly setting elements to be inline; the flow of elements may then be a bit different than expected in RTL mode. Converting these to inline-block should solve most problems. FlipCSS can warn about inline elements.
-* Remember to set "dir=rtl" on the html element (and to actually load the RTL stylesheet) when a RTL language is used.
-* The following languages are written right-to-left: Arabic (ar), Farsi/Persian (fa), Urdu (ur), Hebrew (he), and Yiddish (yi).
+#### Your HTML
+Remember to set "dir=rtl" on the html element (and to actually load the RTL stylesheet) when a RTL language is used.
+
+If you have blobs of content on your RTL page that is LTR, you can set "dir=ltr" on the containers of that content.
+
+#### Inline elements
+Be careful when explicitly setting elements to be inline; the flow of elements may then be a bit different than expected in RTL mode. Converting these to inline-block should solve most problems. FlipCSS can warn about inline elements.
+
+#### Pre-processors
+You may be using a pre-processor, like LESS or SASS. Since these will concatenate files for you, you may want to run them before running FlipCSS. But beware that things may happen to comments, and thus meta information for FlipCSS. One example is that minification will remove all comments.
+
+Another example is that LESS removes duplicate comments. So, if you have several rules that are RTL only in the same code block, only one of these comments will get through the LESS compilation. Because of this, a lot of your RTL only rules will be applied to your LTR page.
+
+To get around this, the meta information comments inside a block must be unique, so that LESS does not strip them away. FlipCSS allows you to add text after a meta information, so you could do something like this:
+
+```img.overlay {
+-webkit-transform: scaleX(-1); /* !rtl-only 1 */
+-moz-transform: scaleX(-1); /* !rtl-only 2 */
+-ie-transform: scaleX(-1); /* !rtl-only 3 */
+-o-transform: scaleX(-1); /* !rtl-only 4 */
+transform: scaleX(-1); /* !rtl-only 5 */
+}```
+
+#### RTL languages
+The following languages are written right-to-left: Arabic (ar), Farsi/Persian (fa), Urdu (ur), Hebrew (he), and Yiddish (yi).
 
 ### Example
 If you have a ltr stylesheet (with direction specific rules both for ltr and rtl), and you want to create a rtl stylesheet:
