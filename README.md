@@ -81,11 +81,11 @@ To get around this, the meta information comments inside a block must be unique,
 
 ```
 img.overlay {
--webkit-transform: scaleX(-1); /* !rtl-only 1 */
--moz-transform: scaleX(-1); /* !rtl-only 2 */
--ie-transform: scaleX(-1); /* !rtl-only 3 */
--o-transform: scaleX(-1); /* !rtl-only 4 */
-transform: scaleX(-1); /* !rtl-only 5 */
+    -webkit-transform: scaleX(-1); /* !rtl-only 1 */
+    -moz-transform: scaleX(-1); /* !rtl-only 2 */
+    -ie-transform: scaleX(-1); /* !rtl-only 3 */
+    -o-transform: scaleX(-1); /* !rtl-only 4 */
+    transform: scaleX(-1); /* !rtl-only 5 */
 }
 ```
 
