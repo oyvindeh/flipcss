@@ -62,7 +62,7 @@ If you want a certain CSS rule not to be flipped by the FlipCSS processing (e.g.
 If you want larger groups of CSS rules to be ignored, you should keep them in separate CSS files.
 
 ### Tips & Tricks
-Below are some things to keep in mind when automatically generating RTL CSS;
+Below are some things to keep in mind when automatically generating RTL CSS:
 
 #### Your HTML
 Remember to set "dir=rtl" on the html element (and to actually load the RTL stylesheet) when a RTL language is used.
