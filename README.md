@@ -1,5 +1,5 @@
 ## FlipCSS library
-Create right-to-left (RTL) CSS from left-to-right (LTR) CSS, and vice versa.
+Create right-to-left (RTL) CSS from left-to-right (LTR) CSS, and vice versa. Wonder how it looks like? Check http://addons.opera.com/en vs. http://addons.opera.com/ar
 
 The library is written for [Node](http://www.nodejs.org/). However, it should be easy to use it in other contexts as well. FlipCSS can be used from the command line.
 
