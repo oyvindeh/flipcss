@@ -1,4 +1,4 @@
-## FlipCSS library
+## FlipCSS
 Create right-to-left (RTL) CSS from left-to-right (LTR) CSS, and vice versa.
 This is useful for making websites work visually for both LTR languages (like English) and RTL languages (like Arabic). 
 
