@@ -21,7 +21,9 @@
         "rtl",
         "ltr",
         "right-to-left",
-        "left-to-right"
+        "left-to-right",
+        "i18n",
+        "internationalization"
     ],
     "devDependencies": {
         "buster": "0.4.5",
