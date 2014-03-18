@@ -18,7 +18,8 @@ function handleArgv(argv) {
                  "  -l, --ltr        Flip CSS RTL>LTR",
                  "  -w, --warnings   Output warnings",
                  "  -h, --help       Usage information",
-                 "If no direction is given, the CSS is just flipped."
+                 "  -c, --clean-only Clean only (requires a direction, -r or -l)",
+                 "If no direction is given, the CSS is just flipped (with no cleaning of direction specific rules)."
                 ].join("\n");
 
     // Asked for help
@@ -28,16 +29,20 @@ function handleArgv(argv) {
     }
 
     // Vars
-    var direction = "none"
-    ,   warnings = false
-    ,   validArgs = {"-r": "rtl",
-                     "--rtl": "rtl",
-                     "-l": "ltr",
-                     "--ltr": "ltr",
-                     "-w": "warnings",
-                     "--warnings": "warnings"
-                    }
-    ,   optCount = 0;
+    var direction = "none";
+    var warnings = false;
+    var cleanOnly = false;
+    var validArgs = {
+        "-r": "rtl",
+        "--rtl": "rtl",
+        "-l": "ltr",
+        "--ltr": "ltr",
+        "-w": "warnings",
+        "--warnings": "warnings",
+        "-c": "cleanonly",
+        "--clean-only": "cleanonly"
+    };
+    var optCount = 0;
 
     // Process args
     for (var arg in validArgs) {
@@ -58,22 +63,30 @@ function handleArgv(argv) {
                 case 'warnings':
                     warnings = true;
                     break;
+                case 'cleanonly':
+                    cleanOnly = true;
+                    break;
                 }
             }
         }
     }
 
     // Invalid arguments
-    if (2 < optCount || argv.length !== 2) {
+    if (2 < optCount ||
+        argv.length !== 2 ||
+        (cleanOnly && direction === "none"))
+    {
         throw { name: "InvalidArgumentsError",
                 message: "Invalid option(s).\n" + usage.toString() };
     }
 
-    return {direction: direction,
-            warnings: warnings,
-            input: argv[0],
-            output: argv[1]
-           };
+    return {
+        direction: direction,
+        warnings: warnings,
+        cleanOnly: cleanOnly,
+        input: argv[0],
+        output: argv[1]
+    };
 }
 
 
@@ -84,12 +97,16 @@ function handleArgv(argv) {
  * @param {Boolean} warnings Output warnings
  * @return {String} Processed CSS
  */
-function transform(css, direction, warnings) {
+function transform(css, direction, warnings, cleanOnly) {
     if (direction === "ltr" || direction === "rtl") {
         css = flipcss.clean(css, direction);
     }
 
-    return flipcss.flip(css, warnings);
+    if (!cleanOnly) {
+        return flipcss.flip(css, warnings);
+    } else {
+        return css;
+    }
 }
 
 /**
@@ -118,7 +135,7 @@ function main() {
 
         var outfile = fs.openSync(outfileName, "w");
 
-        var outdata = transform(data, res.direction, res.warnings);
+        var outdata = transform(data, res.direction, res.warnings, res.cleanOnly);
 
         fs.write(outfile, outdata);
         fs.close(outfile);

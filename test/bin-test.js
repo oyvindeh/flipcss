@@ -15,6 +15,7 @@ buster.testCase("Command line arguments parser", {
         var expected = {
             direction: "rtl",
             warnings: true,
+            cleanOnly: false,
             input: "style.css",
             output: "style-rtl.css"
         };
@@ -27,6 +28,7 @@ buster.testCase("Command line arguments parser", {
         var expected = {
             direction: "ltr",
             warnings: false,
+            cleanOnly: false,
             input: "style.css",
             output: "style-rtl.css"
         };
@@ -39,6 +41,7 @@ buster.testCase("Command line arguments parser", {
         var expected = {
             direction: "rtl",
             warnings: true,
+            cleanOnly: false,
             input: "style.css",
             output: "style-rtl.css"
         };
@@ -51,6 +54,7 @@ buster.testCase("Command line arguments parser", {
         var expected = {
             direction: "none",
             warnings: true,
+            cleanOnly: false,
             input: "style.css",
             output: "style-rtl.css"
         };
@@ -63,11 +67,31 @@ buster.testCase("Command line arguments parser", {
         var expected = {
             direction: "none",
             warnings: false,
+            cleanOnly: false,
             input: "style.css",
             output: "style-rtl.css"
         };
 
         var argv = ["style.css", "style-rtl.css"];
+        var result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+    },
+    "understands valid keyword arguments (clean only)": function() {
+        var expected = {
+            direction: "ltr",
+            warnings: false,
+            cleanOnly: true,
+            input: "style.css",
+            output: "style-rtl.css"
+        };
+
+        // Missing direction
+        var argv = ["style.css", "style-rtl.css", "--clean-only"];
+        assert.exception(function() { lib.handleArgv(argv); },
+                         "InvalidArgumentsError");
+
+        // With direction
+        var argv = ["style.css", "style-rtl.css", "--clean-only", "--ltr"];
         var result = lib.handleArgv(argv);
         assert.equals(expected, result);
     },
