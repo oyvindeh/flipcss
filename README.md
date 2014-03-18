@@ -18,12 +18,13 @@ PLEASE NOTE: This library will be obsoleted by [CSS3 Writing Modes](http://dev.w
 
 ```
 $ flipcss -h
-Usage: flipcss [OPTION]... INFILE OUTFILE
+Usage: node flipcss [OPTION] ... INFILE OUTFILE
   -r, --rtl        Flip CSS LTR>RTL
   -l, --ltr        Flip CSS RTL>LTR
   -w, --warnings   Output warnings
   -h, --help       Usage information
-If no direction is given, the CSS is just flipped.
+  -c, --clean-only Clean only (requires a direction, -r or -l)
+If no direction is given, the CSS is just flipped (with no cleaning of direction specific rules).
 ```
 
 ### Usage (as library)

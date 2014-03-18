@@ -1,3 +1,7 @@
+## 2014.03.18, Version 0.2.5
+
+*   Fix #7, add command line-option for clean-only.
+
 ## 2013.01.14, Version 0.2.4
 
 *   Fix bug in 0.2.3, where meta comments with extra text were not removed by clean().
