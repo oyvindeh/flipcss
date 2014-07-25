@@ -1,4 +1,4 @@
-## 2014.07.25, Version 0.2.6
+## 2014.07.25, Version 0.2.7
 
 *   Fix #8, add support for swapping :before and :after.
 
