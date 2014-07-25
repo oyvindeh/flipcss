@@ -34,6 +34,17 @@ buster.assertions.add("flipsTo", {
 });
 
 
+buster.assertions.add("flipsToPseudo", {
+    assert: function (input, expectedOutput) {
+        this.output = lib.flip(input, false, true);
+        return this.output === expectedOutput;
+    },
+    assertMessage: "Expected \"${0}\" to flip to \"${1}\", got \"${output}\".",
+    refuteMessage: "Expected \"${0}\" to not flip to \"${1}\","
+        + " got \"${output}\"."
+});
+
+
 buster.testCase("Functional tests: Flip stylesheet w/ pre-processing", {
     setUp: function () {
         sinon.spy(console, "log");
@@ -372,4 +383,32 @@ buster.testCase("CSS cleaner", {
         var output = fs.readFileSync("fixtures/output_clean.css").toString();
         assert.equals(func(input, "ltr"), output);
     }
+});
+
+
+buster.testCase("CSS :before/:after pseudo elements", {
+    "left alone by default": function() {
+        assert.flipsTo(".foo:before { content: 'foo'; }",
+                       ".foo:before { content: 'foo'; }");
+        assert.flipsTo(".foo:after { content: 'foo'; }",
+                       ".foo:after { content: 'foo'; }");
+    },
+    "swaps on keyword": function() {
+        assert.flipsTo(".foo:before { /* !swap */ content: 'foo'; }",
+                       ".foo:after { content: 'foo'; }");
+        assert.flipsTo(".foo:after { /* !swap */ content: 'foo'; }",
+                       ".foo:before { content: 'foo'; }");
+    },
+    "swaps on flag": function() {
+        assert.flipsToPseudo(".foo:before { content: 'foo'; }",
+                       ".foo:after { content: 'foo'; }");
+        assert.flipsToPseudo(".foo:after { content: 'foo'; }",
+                       ".foo:before { content: 'foo'; }");
+    },
+    "swaps on flag, but leaves !direction-ignore alone": function() {
+        assert.flipsToPseudo(".foo:before { /* !direction-ignore */ content: 'foo'; }",
+                       ".foo:before { /* !direction-ignore */ content: 'foo'; }");
+        assert.flipsToPseudo(".foo:after { /* !direction-ignore */ content: 'foo'; }",
+                       ".foo:after { /* !direction-ignore */ content: 'foo'; }");
+    },
 });

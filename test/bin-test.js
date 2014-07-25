@@ -16,6 +16,7 @@ buster.testCase("Command line arguments parser", {
             direction: "rtl",
             warnings: true,
             cleanOnly: false,
+            swapPseudo: false,
             input: "style.css",
             output: "style-rtl.css"
         };
@@ -29,6 +30,7 @@ buster.testCase("Command line arguments parser", {
             direction: "ltr",
             warnings: false,
             cleanOnly: false,
+            swapPseudo: false,
             input: "style.css",
             output: "style-rtl.css"
         };
@@ -42,6 +44,7 @@ buster.testCase("Command line arguments parser", {
             direction: "rtl",
             warnings: true,
             cleanOnly: false,
+            swapPseudo: false,
             input: "style.css",
             output: "style-rtl.css"
         };
@@ -55,6 +58,7 @@ buster.testCase("Command line arguments parser", {
             direction: "none",
             warnings: true,
             cleanOnly: false,
+            swapPseudo: false,
             input: "style.css",
             output: "style-rtl.css"
         };
@@ -68,6 +72,7 @@ buster.testCase("Command line arguments parser", {
             direction: "none",
             warnings: false,
             cleanOnly: false,
+            swapPseudo: false,
             input: "style.css",
             output: "style-rtl.css"
         };
@@ -81,6 +86,7 @@ buster.testCase("Command line arguments parser", {
             direction: "ltr",
             warnings: false,
             cleanOnly: true,
+            swapPseudo: false,
             input: "style.css",
             output: "style-rtl.css"
         };
@@ -92,6 +98,21 @@ buster.testCase("Command line arguments parser", {
 
         // With direction
         var argv = ["style.css", "style-rtl.css", "--clean-only", "--ltr"];
+        var result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+    },
+    "understands valid keyword arguments (swap pseudo elements)": function() {
+        var expected = {
+            direction: "ltr",
+            warnings: false,
+            cleanOnly: false,
+            swapPseudo: true,
+            input: "style.css",
+            output: "style-rtl.css"
+        };
+
+        // With direction
+        var argv = ["style.css", "style-rtl.css", "--swap-pseudo", "--ltr"];
         var result = lib.handleArgv(argv);
         assert.equals(expected, result);
     },
@@ -144,6 +165,17 @@ buster.testCase("Command line arguments parser", {
         argv = ["-a", "-r", "-b", "style.css", "style-rtl.css"];
         assert.exception(function() { lib.handleArgv(argv); },
                          "InvalidArgumentsError");
+    },
+    "understands request for usage info": function() {
+        var argv, result;
+
+        argv = ["-h"];
+        result = lib.handleArgv(argv);
+        assert.equals(null, result);
+
+        argv = ["--help"];
+        result = lib.handleArgv(argv);
+        assert.equals(null, result);
     },
     "understands request for usage info": function() {
         var argv, result;

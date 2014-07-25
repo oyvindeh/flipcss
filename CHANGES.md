@@ -1,3 +1,7 @@
+## 2014.07.25, Version 0.2.6
+
+*   Fix #8, add support for swapping :before and :after.
+
 ## 2014.03.18, Version 0.2.5
 
 *   Fix #7, add command line-option for clean-only.

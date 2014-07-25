@@ -14,11 +14,12 @@ var fs = require('fs');
 function handleArgv(argv) {
     // Usage info
     var usage = ["Usage: node flipcss [OPTION] ... INFILE OUTFILE",
-                 "  -r, --rtl        Flip CSS LTR>RTL",
-                 "  -l, --ltr        Flip CSS RTL>LTR",
-                 "  -w, --warnings   Output warnings",
-                 "  -h, --help       Usage information",
-                 "  -c, --clean-only Clean only (requires a direction, -r or -l)",
+                 "  -r, --rtl         Flip CSS LTR>RTL",
+                 "  -l, --ltr         Flip CSS RTL>LTR",
+                 "  -w, --warnings    Output warnings",
+                 "  -h, --help        Usage information",
+                 "  -c, --clean-only  Clean only (requires a direction, -r or -l)",
+                 "  -p, --swap-pseudo Swap :before and :after",
                  "If no direction is given, the CSS is just flipped (with no cleaning of direction specific rules)."
                 ].join("\n");
 
@@ -32,6 +33,7 @@ function handleArgv(argv) {
     var direction = "none";
     var warnings = false;
     var cleanOnly = false;
+    var swapPseudo = false;
     var validArgs = {
         "-r": "rtl",
         "--rtl": "rtl",
@@ -40,7 +42,9 @@ function handleArgv(argv) {
         "-w": "warnings",
         "--warnings": "warnings",
         "-c": "cleanonly",
-        "--clean-only": "cleanonly"
+        "--clean-only": "cleanonly",
+        "-p": "swappseudo",
+        "--swap-pseudo": "swappseudo"
     };
     var optCount = 0;
 
@@ -66,6 +70,9 @@ function handleArgv(argv) {
                 case 'cleanonly':
                     cleanOnly = true;
                     break;
+                case 'swappseudo':
+                    swapPseudo = true;
+                    break;
                 }
             }
         }
@@ -84,6 +91,7 @@ function handleArgv(argv) {
         direction: direction,
         warnings: warnings,
         cleanOnly: cleanOnly,
+        swapPseudo: swapPseudo,
         input: argv[0],
         output: argv[1]
     };
@@ -95,15 +103,16 @@ function handleArgv(argv) {
  * @param {String} css CSS to transform
  * @param {String} direction Direction ("ltr", "rtl", or empty/"none")
  * @param {Boolean} warnings Output warnings
+ * @param {Boolean} swapPseudo Swap :before and :after
  * @return {String} Processed CSS
  */
-function transform(css, direction, warnings, cleanOnly) {
+function transform(css, direction, warnings, cleanOnly, swapPseudo) {
     if (direction === "ltr" || direction === "rtl") {
         css = flipcss.clean(css, direction);
     }
 
     if (!cleanOnly) {
-        return flipcss.flip(css, warnings);
+        return flipcss.flip(css, warnings, swapPseudo);
     } else {
         return css;
     }
@@ -135,7 +144,7 @@ function main() {
 
         var outfile = fs.openSync(outfileName, "w");
 
-        var outdata = transform(data, res.direction, res.warnings, res.cleanOnly);
+        var outdata = transform(data, res.direction, res.warnings, res.cleanOnly, res.swapPseudo);
 
         fs.write(outfile, outdata);
         fs.close(outfile);

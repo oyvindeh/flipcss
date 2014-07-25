@@ -19,11 +19,12 @@ PLEASE NOTE: This library will be obsoleted by [CSS3 Writing Modes](http://dev.w
 ```
 $ flipcss -h
 Usage: node flipcss [OPTION] ... INFILE OUTFILE
-  -r, --rtl        Flip CSS LTR>RTL
-  -l, --ltr        Flip CSS RTL>LTR
-  -w, --warnings   Output warnings
-  -h, --help       Usage information
-  -c, --clean-only Clean only (requires a direction, -r or -l)
+  -r, --rtl         Flip CSS LTR>RTL
+  -l, --ltr         Flip CSS RTL>LTR
+  -w, --warnings    Output warnings
+  -h, --help        Usage information
+  -c, --clean-only  Clean only (requires a direction, -r or -l)
+  -p, --swap-pseudo Swap :before and :after
 If no direction is given, the CSS is just flipped (with no cleaning of direction specific rules).
 ```
 
@@ -45,8 +46,10 @@ Please see the example below.
 A number of operations are done when you call flip():
 
 * All instances of the words "left" and "right" are swapped, except when part of other words (e.g. "copyright"). When separated by other characters than letters and digits (e.g. hypens), they will be swapped: This means you can have image files which are direction specific by adding "left" or "right" in the file names (e.g. "arrow-right.png", which will be changed to "arrow-left.png").
-* Swap horizontal values in margin and padding rules.
-* Swapping horizontal background position (but only for values given as percentages, or given as the keywords "left" and "right").
+* Horizontal values in margin and padding rules are swapped.
+* Horizontal background position (but only for values given as percentages, or given as the keywords "left" and "right") are swapped.
+
+The pseudo elements :before and :after can also be swapped, but this is not done by default.
 
 CSS rules marked as direction specific are not touched by flip(). See below for more info on direction specific rules.
 
@@ -61,6 +64,18 @@ If you want some rules to only be applied for LTR, you can add a comment after t
 .foo { font-style: italic; /* !ltr-only */}```
 
 If you want larger groups of CSS rules to be direction specific, you should keep them in separate CSS files.
+
+### :before and :after
+The :before and :after pseudo elements can also be swapped, although they are kept as-is by default. To swap all of them, you can use the command-line flag "-p" or "--swap-pseudo". If you want to swap just a few instances, add /* !swap */ after the brace, like this:
+
+```
+.foo:before { /* !swap */
+    content: "Foo";
+}
+```
+Please note that the comment must be after the brace.
+
+If you use the command line flag to swap all instances of :before and :after, you may use `/* !direction-ignore */` to ignore certain instances. However, `/* !rtl-only */` and `/* !ltr-only */` does not work for pseudo elements.
 
 ### Keep rules as is
 If you want a certain CSS rule not to be flipped by the FlipCSS processing (e.g. a div that always should be floated right), add a comment saying `/* !direction-ignore */` after the rule.
