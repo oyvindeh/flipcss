@@ -1,8 +1,7 @@
-/* jshint: */
-/*global public_functions assert require flipcss fs:true sinon:true */
+/* global assert:true */
 
-fs = require("fs");
-sinon = require("sinon");
+var fs = require("fs");
+var sinon = require("sinon");
 
 if (typeof require !== "undefined") {
     var buster = require("buster");

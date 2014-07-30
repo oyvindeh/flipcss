@@ -1,8 +1,6 @@
-/* jshint: */
-/*global public_functions assert require flipcss fs:true sinon:true */
+/*global assert:true */
 
-fs = require("fs");
-sinon = require("sinon");
+var sinon = require("sinon");
 
 if (typeof require !== "undefined") {
     var buster = require("buster");
@@ -97,7 +95,7 @@ buster.testCase("Command line arguments parser", {
                          "InvalidArgumentsError");
 
         // With direction
-        var argv = ["style.css", "style-rtl.css", "--clean-only", "--ltr"];
+        argv = ["style.css", "style-rtl.css", "--clean-only", "--ltr"];
         var result = lib.handleArgv(argv);
         assert.equals(expected, result);
     },
@@ -117,9 +115,7 @@ buster.testCase("Command line arguments parser", {
         assert.equals(expected, result);
     },
     "gives error when too few arguments": function() {
-        var expected = false;
-
-        var argv, result;
+        var argv;
 
         // Missing input/output file
         argv = ["-r", "-w", "style.css"];
@@ -132,9 +128,7 @@ buster.testCase("Command line arguments parser", {
                          "InvalidArgumentsError");
     },
     "gives error when too many arguments": function() {
-        var expected = false;
-
-        var argv, result;
+        var argv;
 
         // Extra option
         argv = ["-w", "-r", "-a", "style.css", "style-rtl.css"];
@@ -147,9 +141,7 @@ buster.testCase("Command line arguments parser", {
                          "InvalidArgumentsError");
     },
     "gives typeof on invalid arguments": function() {
-        var expected = false;
-
-        var argv, result;
+        var argv;
 
         // Invalid argument
         argv = ["-r", "-a", "style.css", "style-rtl.css"];
@@ -165,17 +157,6 @@ buster.testCase("Command line arguments parser", {
         argv = ["-a", "-r", "-b", "style.css", "style-rtl.css"];
         assert.exception(function() { lib.handleArgv(argv); },
                          "InvalidArgumentsError");
-    },
-    "understands request for usage info": function() {
-        var argv, result;
-
-        argv = ["-h"];
-        result = lib.handleArgv(argv);
-        assert.equals(null, result);
-
-        argv = ["--help"];
-        result = lib.handleArgv(argv);
-        assert.equals(null, result);
     },
     "understands request for usage info": function() {
         var argv, result;
