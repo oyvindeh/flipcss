@@ -31,7 +31,7 @@ If no direction is given, the CSS is just flipped (with no cleaning of direction
 ### Usage (as library)
 FlipCSS has two public functions:
 
-* `flip(String css, Boolean warnings)`
+* `flip(String css, Boolean warnings, Boolean flipPseudo)`
 * `clean(String css, String direction)`
 
 flip() does the RTL flipping. It takes two arguments: The CSS to flip, and a boolean telling it whether it should output warnings or not.
