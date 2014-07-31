@@ -33,6 +33,17 @@ buster.assertions.add("flipsTo", {
 });
 
 
+buster.assertions.add("flipsFilename", {
+    assert: function (input, expectedOutput) {
+        this.output = lib.flip(input, false, false, true);
+        return this.output === expectedOutput;
+    },
+    assertMessage: "Expected \"${0}\" to flip to \"${1}\", got \"${output}\".",
+    refuteMessage: "Expected \"${0}\" to not flip to \"${1}\","
+        + " got \"${output}\"."
+});
+
+
 buster.assertions.add("flipsPseudo", {
     assert: function (input, expectedOutput) {
         this.output = lib.flip(input, false, true);
@@ -117,17 +128,24 @@ buster.testCase("CSS word swapper", {
     },
     "understands the difference between words and subwords": function() {
         // "Copyright" should be unchanged (full word), but float should be changed.
-        assert.flipsTo(".copyright { float: right; }",
-                       ".copyright { float: left; }");
+        assert.flipsTo(".copyright {}",
+                       ".copyright {}");
         // "rights.png" Should not be changed (subword)
-        assert.flipsTo("background: url('rights.png')",
-                       "background: url('rights.png')");
-        // "arrow-left.png" Should be changed (subword)
-        assert.flipsTo("background: url('arrow-left.png')",
-                       "background: url('arrow-right.png')");
+        assert.flipsTo(".rights {}",
+                       ".rights {}");
         // "pull-right" should be changed (subword), and float should be changed
         assert.flipsTo(".pull-right { float: right; }",
                        ".pull-left { float: left; }");
+    },
+    "does not swap filenames by default": function() {
+        assert.flipsTo("background: url('arrow-left.png')",
+                       "background: url('arrow-left.png')");
+    },
+    "swaps filenames when asked to": function() {
+        assert.flipsFilename("background: url('arrow-left.png')",
+                       "background: url('arrow-right.png')");
+        assert.flipsFilename("background: url('left-imgs/arrow.png')",
+                       "background: url('right-imgs/arrow.png')");
     },
     "leaves ignored rules alone": function() {
         // Basic case: Nothing should change.
