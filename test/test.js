@@ -33,7 +33,7 @@ buster.assertions.add("flipsTo", {
 });
 
 
-buster.assertions.add("flipsToPseudo", {
+buster.assertions.add("flipsPseudo", {
     assert: function (input, expectedOutput) {
         this.output = lib.flip(input, false, true);
         return this.output === expectedOutput;
@@ -399,15 +399,15 @@ buster.testCase("CSS :before/:after pseudo elements", {
                        ".foo:before { content: 'foo'; }");
     },
     "swaps on flag": function() {
-        assert.flipsToPseudo(".foo:before { content: 'foo'; }",
+        assert.flipsPseudo(".foo:before { content: 'foo'; }",
                        ".foo:after { content: 'foo'; }");
-        assert.flipsToPseudo(".foo:after { content: 'foo'; }",
+        assert.flipsPseudo(".foo:after { content: 'foo'; }",
                        ".foo:before { content: 'foo'; }");
     },
     "swaps on flag, but leaves !direction-ignore alone": function() {
-        assert.flipsToPseudo(".foo:before { /* !direction-ignore */ content: 'foo'; }",
+        assert.flipsPseudo(".foo:before { /* !direction-ignore */ content: 'foo'; }",
                        ".foo:before { /* !direction-ignore */ content: 'foo'; }");
-        assert.flipsToPseudo(".foo:after { /* !direction-ignore */ content: 'foo'; }",
+        assert.flipsPseudo(".foo:after { /* !direction-ignore */ content: 'foo'; }",
                        ".foo:after { /* !direction-ignore */ content: 'foo'; }");
     },
 });
