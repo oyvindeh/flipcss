@@ -9,68 +9,14 @@ if (typeof require !== "undefined") {
 
 
 buster.testCase("Command line arguments parser", {
-    "understands valid short form arguments (warnings)": function() {
-        var expected = {
-            direction: "rtl",
-            warnings: true,
-            cleanOnly: false,
-            swapPseudo: false,
-            input: "style.css",
-            output: "style-rtl.css"
-        };
-
-        var argv = ["-r", "-w", "style.css", "style-rtl.css"];
-        var result = lib.handleArgv(argv);
-        assert.equals(expected, result);
-    },
-    "understands valid short form arguments (no warnings)": function() {
-        var expected = {
-            direction: "ltr",
-            warnings: false,
-            cleanOnly: false,
-            swapPseudo: false,
-            input: "style.css",
-            output: "style-rtl.css"
-        };
-
-        var argv = ["-l", "style.css", "style-rtl.css"];
-        var result = lib.handleArgv(argv);
-        assert.equals(expected, result);
-    },
-    "understands valid keyword arguments": function() {
-        var expected = {
-            direction: "rtl",
-            warnings: true,
-            cleanOnly: false,
-            swapPseudo: false,
-            input: "style.css",
-            output: "style-rtl.css"
-        };
-
-        var argv = ["--rtl", "--warnings", "style.css", "style-rtl.css"];
-        var result = lib.handleArgv(argv);
-        assert.equals(expected, result);
-    },
-    "understands valid keyword arguments (no direction)": function() {
-        var expected = {
-            direction: "none",
-            warnings: true,
-            cleanOnly: false,
-            swapPseudo: false,
-            input: "style.css",
-            output: "style-rtl.css"
-        };
-
-        var argv = ["-w", "style.css", "style-rtl.css"];
-        var result = lib.handleArgv(argv);
-        assert.equals(expected, result);
-    },
-    "understands valid keyword arguments (no direction, no warnings)": function() {
+    "works with no arguments": function() {
         var expected = {
             direction: "none",
             warnings: false,
             cleanOnly: false,
             swapPseudo: false,
+            flipUrls: true,
+            flipSelectors: true,
             input: "style.css",
             output: "style-rtl.css"
         };
@@ -79,12 +25,74 @@ buster.testCase("Command line arguments parser", {
         var result = lib.handleArgv(argv);
         assert.equals(expected, result);
     },
-    "understands valid keyword arguments (clean only)": function() {
+    "understands request to show warnings": function() {
+        var expected = {
+            direction: "none",
+            warnings: true,
+            cleanOnly: false,
+            swapPseudo: false,
+            flipUrls: true,
+            flipSelectors: true,
+            input: "style.css",
+            output: "style-rtl.css"
+        };
+
+        var argv = ["-w", "style.css", "style-rtl.css"];
+        var result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+
+        argv = ["--warnings", "style.css", "style-rtl.css"];
+        result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+    },
+    "understands request to do RTL>LTR": function() {
+        var expected = {
+            direction: "ltr",
+            warnings: false,
+            cleanOnly: false,
+            swapPseudo: false,
+            flipUrls: true,
+            flipSelectors: true,
+            input: "style.css",
+            output: "style-rtl.css"
+        };
+
+        var argv = ["-l", "style.css", "style-rtl.css"];
+        var result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+
+        argv = ["--ltr", "style.css", "style-rtl.css"];
+        result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+    },
+    "understands request to do LTR>RTL": function() {
+        var expected = {
+            direction: "rtl",
+            warnings: false,
+            cleanOnly: false,
+            swapPseudo: false,
+            flipUrls: true,
+            flipSelectors: true,
+            input: "style.css",
+            output: "style-rtl.css"
+        };
+
+        var argv = ["-r", "style.css", "style-rtl.css"];
+        var result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+
+        argv = ["--rtl", "style.css", "style-rtl.css"];
+        result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+    },
+    "understands request to do clean only": function() {
         var expected = {
             direction: "ltr",
             warnings: false,
             cleanOnly: true,
             swapPseudo: false,
+            flipUrls: true,
+            flipSelectors: true,
             input: "style.css",
             output: "style-rtl.css"
         };
@@ -94,24 +102,79 @@ buster.testCase("Command line arguments parser", {
         assert.exception(function() { lib.handleArgv(argv); },
                          "InvalidArgumentsError");
 
-        // With direction
+        // With direction, long form
         argv = ["style.css", "style-rtl.css", "--clean-only", "--ltr"];
         var result = lib.handleArgv(argv);
         assert.equals(expected, result);
+
+        // With direction, short form
+        argv = ["style.css", "style-rtl.css", "-c", "--ltr"];
+        result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+
     },
-    "understands valid keyword arguments (swap pseudo elements)": function() {
+    "understands request to swap pseudo elements": function() {
         var expected = {
-            direction: "ltr",
+            direction: "none",
             warnings: false,
             cleanOnly: false,
             swapPseudo: true,
+            flipUrls: true,
+            flipSelectors: true,
             input: "style.css",
             output: "style-rtl.css"
         };
 
-        // With direction
-        var argv = ["style.css", "style-rtl.css", "--swap-pseudo", "--ltr"];
+        // long form
+        var argv = ["style.css", "style-rtl.css", "-p"];
         var result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+
+        // short form
+        argv = ["style.css", "style-rtl.css", "--swap-pseudo"];
+        result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+    },
+    "understands request to ignore URLs": function() {
+        var expected = {
+            direction: "none",
+            warnings: false,
+            cleanOnly: false,
+            swapPseudo: false,
+            flipUrls: false,
+            flipSelectors: true,
+            input: "style.css",
+            output: "style-rtl.css"
+        };
+
+        // long form
+        var argv = ["style.css", "style-rtl.css", "--ignore-urls"];
+        var result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+
+        // short form
+        argv = ["style.css", "style-rtl.css", "-u"];
+        result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+    },
+    "understands request to ignore selectors": function() {
+        var expected = {
+            direction: "none",
+            warnings: false,
+            cleanOnly: false,
+            swapPseudo: false,
+            flipUrls: true,
+            flipSelectors: false,
+            input: "style.css",
+            output: "style-rtl.css"
+        };
+
+        var argv = ["style.css", "style-rtl.css", "--ignore-selectors"];
+        var result = lib.handleArgv(argv);
+        assert.equals(expected, result);
+
+        argv = ["style.css", "style-rtl.css", "-s"];
+        result = lib.handleArgv(argv);
         assert.equals(expected, result);
     },
     "gives error when too few arguments": function() {
