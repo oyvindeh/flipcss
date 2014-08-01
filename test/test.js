@@ -33,9 +33,9 @@ buster.assertions.add("flipsTo", {
 });
 
 
-buster.assertions.add("flipsFilename", {
+buster.assertions.add("notFlipFilenames", {
     assert: function (input, expectedOutput) {
-        this.output = lib.flip(input, false, false, true);
+        this.output = lib.flip(input, false, false, false);
         return this.output === expectedOutput;
     },
     assertMessage: "Expected \"${0}\" to flip to \"${1}\", got \"${output}\".",
@@ -44,9 +44,9 @@ buster.assertions.add("flipsFilename", {
 });
 
 
-buster.assertions.add("flipsSelector", {
+buster.assertions.add("notFlipSelectors", {
     assert: function (input, expectedOutput) {
-        this.output = lib.flip(input, false, false, false, true);
+        this.output = lib.flip(input, false, false, false, false);
         return this.output === expectedOutput;
     },
     assertMessage: "Expected \"${0}\" to flip to \"${1}\", got \"${output}\".",
@@ -139,30 +139,30 @@ buster.testCase("CSS word swapper", {
     },
     "understands the difference between words and subwords": function() {
         // "Copyright" should be unchanged (full word), but float should be changed.
-        assert.flipsSelector(".copyright {}",
+        assert.flipsTo(".copyright {}",
                        ".copyright {}");
         // "rights.png" Should not be changed (subword)
-        assert.flipsSelector(".rights {}",
+        assert.flipsTo(".rights {}",
                        ".rights {}");
     },
-    "does not swap filenames by default": function() {
-        assert.flipsTo("background: url('arrow-left.png')",
+    "leaves filenames alone when asked to": function() {
+        assert.notFlipFilenames("background: url('arrow-left.png')",
                        "background: url('arrow-left.png')");
     },
-    "swaps filenames when asked to": function() {
-        assert.flipsFilename("background: url('arrow-left.png')",
+    "swaps filenames by default": function() {
+        assert.flipsTo("background: url('arrow-left.png')",
                        "background: url('arrow-right.png')");
-        assert.flipsFilename("background: url('left-imgs/arrow.png')",
+        assert.flipsTo("background: url('left-imgs/arrow.png')",
                        "background: url('right-imgs/arrow.png')");
     },
-    "does not swap selectors by default": function() {
+    "swaps selectors by default": function() {
         assert.flipsTo(".pull-right { float: right; }",
-                       ".pull-right { float: left; }");
-    },
-    "swaps selectors when asked to": function() {
-        // "pull-right" should be changed (subword)
-        assert.flipsSelector(".pull-right { float: right; }",
                        ".pull-left { float: left; }");
+    },
+    "leaves selectors alone when asked to": function() {
+        // "pull-right" should be changed (subword)
+        assert.notFlipSelectors(".pull-right { float: right; }",
+                                ".pull-right { float: left; }");
     },
     "leaves ignored rules alone": function() {
         // Basic case: Nothing should change.
