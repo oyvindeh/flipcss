@@ -33,7 +33,7 @@ buster.assertions.add("flipsTo", {
 });
 
 
-buster.assertions.add("notFlipFilenames", {
+buster.assertions.add("notFlipUrls", {
     assert: function (input, expectedOutput) {
         this.output = lib.flip(input, false, false, false);
         return this.output === expectedOutput;
@@ -145,11 +145,11 @@ buster.testCase("CSS word swapper", {
         assert.flipsTo(".rights {}",
                        ".rights {}");
     },
-    "leaves filenames alone when asked to": function() {
-        assert.notFlipFilenames("background: url('arrow-left.png')",
+    "leaves urls alone when asked to": function() {
+        assert.notFlipUrls("background: url('arrow-left.png')",
                        "background: url('arrow-left.png')");
     },
-    "swaps filenames by default": function() {
+    "swaps urls by default": function() {
         assert.flipsTo("background: url('arrow-left.png')",
                        "background: url('arrow-right.png')");
         assert.flipsTo("background: url('left-imgs/arrow.png')",
