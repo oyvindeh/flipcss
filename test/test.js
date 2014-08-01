@@ -44,6 +44,17 @@ buster.assertions.add("flipsFilename", {
 });
 
 
+buster.assertions.add("flipsSelector", {
+    assert: function (input, expectedOutput) {
+        this.output = lib.flip(input, false, false, false, true);
+        return this.output === expectedOutput;
+    },
+    assertMessage: "Expected \"${0}\" to flip to \"${1}\", got \"${output}\".",
+    refuteMessage: "Expected \"${0}\" to not flip to \"${1}\","
+        + " got \"${output}\"."
+});
+
+
 buster.assertions.add("flipsPseudo", {
     assert: function (input, expectedOutput) {
         this.output = lib.flip(input, false, true);
@@ -128,14 +139,11 @@ buster.testCase("CSS word swapper", {
     },
     "understands the difference between words and subwords": function() {
         // "Copyright" should be unchanged (full word), but float should be changed.
-        assert.flipsTo(".copyright {}",
+        assert.flipsSelector(".copyright {}",
                        ".copyright {}");
         // "rights.png" Should not be changed (subword)
-        assert.flipsTo(".rights {}",
+        assert.flipsSelector(".rights {}",
                        ".rights {}");
-        // "pull-right" should be changed (subword), and float should be changed
-        assert.flipsTo(".pull-right { float: right; }",
-                       ".pull-left { float: left; }");
     },
     "does not swap filenames by default": function() {
         assert.flipsTo("background: url('arrow-left.png')",
@@ -146,6 +154,15 @@ buster.testCase("CSS word swapper", {
                        "background: url('arrow-right.png')");
         assert.flipsFilename("background: url('left-imgs/arrow.png')",
                        "background: url('right-imgs/arrow.png')");
+    },
+    "does not swap selectors by default": function() {
+        assert.flipsTo(".pull-right { float: right; }",
+                       ".pull-right { float: left; }");
+    },
+    "swaps selectors when asked to": function() {
+        // "pull-right" should be changed (subword)
+        assert.flipsSelector(".pull-right { float: right; }",
+                       ".pull-left { float: left; }");
     },
     "leaves ignored rules alone": function() {
         // Basic case: Nothing should change.

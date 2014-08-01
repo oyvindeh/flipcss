@@ -43,7 +43,7 @@ body {direction:rtl;
     top: 0;
     right: 10em;
 }
-.pull-left {
+.pull-right {
     float: right !important; /* !direction-ignore */
 }
 .grault {
