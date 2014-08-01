@@ -1,3 +1,8 @@
+## 2014.08.01, Version 0.2.8
+
+*   Fix #9, add option for not swapping the words "left" and "right" in URLs.
+*   Add option for not swapping the words "left" and "right" in selectors.
+
 ## 2014.07.25, Version 0.2.7
 
 *   Fix #8, add support for swapping :before and :after.
