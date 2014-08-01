@@ -19,24 +19,27 @@ PLEASE NOTE: This library will be obsoleted by [CSS3 Writing Modes](http://dev.w
 ```
 $ flipcss -h
 Usage: node flipcss [OPTION] ... INFILE OUTFILE
-  -r, --rtl         Flip CSS LTR>RTL
-  -l, --ltr         Flip CSS RTL>LTR
-  -w, --warnings    Output warnings
-  -h, --help        Usage information
-  -c, --clean-only  Clean only (requires a direction, -r or -l)
-  -p, --swap-pseudo Swap :before and :after
+  -r, --rtl              Flip CSS LTR>RTL
+  -l, --ltr              Flip CSS RTL>LTR
+  -w, --warnings         Output warnings
+  -h, --help             Usage information
+  -c, --clean-only       Clean only (requires a direction, -r or -l)
+  -p, --swap-pseudo      Swap :before and :after
+  -u, --ignore-urls      Do not swap the words left and right inside url()
+  -s, --ignore-selectors Do not swap the words left and right in selectors
+
 If no direction is given, the CSS is just flipped (with no cleaning of direction specific rules).
 ```
 
 ### Usage (as library)
 FlipCSS has two public functions:
 
-* `flip(String css, Boolean warnings, Boolean flipPseudo)`
+* `flip(String css, [Boolean warnings=false], [Boolean flipPseudo=false], [Boolean flipUrls=true], [Boolean flipSelectors=true])`
 * `clean(String css, String direction)`
 
-flip() does the RTL flipping. It takes two arguments: The CSS to flip, and a boolean telling it whether it should output warnings or not.
+flip() does the RTL flipping. It takes five arguments. The first is mandatory, and is the CSS to flip. The rest are optional. If "warnings" is true, warnings will be printed to console (deaults to false). If "flipPseudo" is true, :before and :after will be swapped (defaults to false). If "flipUrls" is true, the words "left" and "right" will be swapped inside URLs (i.e., inside "url()" - defaults to true). If flipSelectors is true, the words "left" and "right" will be swapped inside selectors (i.e. ".pull-left {}" will become ".pull-right" - defaults to true).
 
-clean() removes direction specific CSS rules. It also takes two arguments: The CSS to clean, and the direction ("rtl" or "ltr"). If you have direction-specific rules in your CSS, you would want to run this both for your RTL CSS and your LTR CSS. This function will also add a CSS direction rule (e.g. "direction:ltr;") to the CSS, based on the direction given as the second parameter.
+clean() removes direction specific CSS rules. It takes two arguments: The CSS to clean, and the direction ("rtl" or "ltr"). If you have direction-specific rules in your CSS, you would want to run this both for your RTL CSS and your LTR CSS. This function will also add a CSS direction rule (e.g. "direction:ltr;") to the CSS, based on the direction given as the second parameter.
 
 If your web page supports both LTR and RTL, you will need to have two stylesheets, one for each direction.
 
@@ -45,13 +48,18 @@ Please see the example below.
 ### What is done when flipping?
 A number of operations are done when you call flip():
 
-* All instances of the words "left" and "right" are swapped, except when part of other words (e.g. "copyright"). When separated by other characters than letters and digits (e.g. hypens), they will be swapped: This means you can have image files which are direction specific by adding "left" or "right" in the file names (e.g. "arrow-right.png", which will be changed to "arrow-left.png").
+* All instances of the words "left" and "right" are swapped. See more details below.
 * Horizontal values in margin and padding rules are swapped.
-* Horizontal background position (but only for values given as percentages, or given as the keywords "left" and "right") are swapped.
+* Horizontal background position are swapped, if given as percentages, or as the keywords "left" and "right".
 
 The pseudo elements :before and :after can also be swapped, but this is not done by default.
 
 CSS rules marked as direction specific are not touched by flip(). See below for more info on direction specific rules.
+
+#### The words "left" and "right"
+The code for swapping the words "left" and "right" is naive, and just swaps every instance it can find, disregarding context. The basic exception is when these words are part of other words (e.g. "copyright"). When separated by other characters than letters and digits (e.g. hypens), they will be swapped. This means that you can have things like direction specific image files, and get those handled automatically: Just add "left" or "right" in the file names. For example, "arrow-right.png" will be changed to "arrow-left.png".
+
+If you want a slightly less eager behaviour, you can specify URLs and selectors to be left untouched by using the "-u" and "-s" commandline flags respectively (or use the appropriate arguments for API use). But beware that the implementation will still be pretty naive, and will change these words in other contexts (e.g. in comments). Please file bugs if it changes something that should probably not be changed.
 
 ### What is done when cleaning
 * All direction specific rules not relevant for the direction given are removed.
