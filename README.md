@@ -14,6 +14,8 @@ PLEASE NOTE: This library will be obsoleted by [CSS3 Writing Modes](http://dev.w
 
 `npm install flipcss`
 
+Using [Grunt](http://gruntjs.com/)? Check out [grunt-flipcss](https://github.com/behrang/grunt-flipcss).
+
 ### Usage (command line)
 
 ```
