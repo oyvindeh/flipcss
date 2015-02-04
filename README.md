@@ -92,8 +92,11 @@ If you want a certain CSS rule not to be flipped by the FlipCSS processing (e.g.
 
 If you want larger groups of CSS rules to be ignored, you should keep them in separate CSS files.
 
-### Tips & Tricks
+### Tips, tricks and limitations
 Below are some things to keep in mind when automatically generating RTL CSS:
+
+#### Semicolons
+Although the CSS spec allows you to [omit the semicolon in cases where you have only one declaration](http://www.w3.org/TR/CSS2/syndata.html#declaration), FlipCSS has trouble with this. Thus, it is recommended that you always include the semicolon after a declaration.
 
 #### Your HTML
 Remember to set "dir=rtl" on the html element (and to actually load the RTL stylesheet) when a RTL language is used.
