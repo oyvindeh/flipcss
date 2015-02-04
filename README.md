@@ -96,7 +96,7 @@ If you want larger groups of CSS rules to be ignored, you should keep them in se
 Below are some things to keep in mind when automatically generating RTL CSS:
 
 #### Semicolons
-Although the CSS spec allows you to [omit the semicolon in cases where you have only one declaration](http://www.w3.org/TR/CSS2/syndata.html#declaration), FlipCSS has trouble with this. Thus, it is recommended that you always include the semicolon after a declaration.
+Although [the CSS spec allows you to omit the semicolon in cases where you have only one declaration](http://www.w3.org/TR/CSS2/syndata.html#declaration), FlipCSS has trouble with this. Thus, it is recommended that you always include the semicolon after a declaration.
 
 #### Your HTML
 Remember to set "dir=rtl" on the html element (and to actually load the RTL stylesheet) when a RTL language is used.
