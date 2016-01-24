@@ -1,5 +1,5 @@
 {
-    "author": "Øyvind Håkestad <oyvindeh@opera.com> (https://github.com/oyvindeh)",
+    "author": "Øyvind Håkestad <oyvindeh@fastmail.fm> (https://github.com/oyvindeh)",
     "contributors": [
         "Neil Jenkins <neilj@opera.com> (https://github.com/neilj)",
         "Torgeir Lorange Østby <torgeilo@opera.com> (https://github.com/torgeilo)"
@@ -7,10 +7,10 @@
     "name": "flipcss",
     "description": "Flip CSS from ltr to rtl (and vice versa).",
     "version": "0.2.8",
-    "homepage": "https://github.com/operasoftware/flipcss",
+    "homepage": "https://github.com/oyvindeh/flipcss",
     "repository": {
         "type": "git",
-        "url": "git@github.com:operasoftware/flipcss.git"
+        "url": "git@github.com:oyvindeh/flipcss.git"
     },
     "main": "./lib/flipcss.js",
     "bin": {
