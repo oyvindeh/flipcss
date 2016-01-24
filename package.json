@@ -26,8 +26,11 @@
         "internationalization"
     ],
     "devDependencies": {
-        "buster": "0.6.x",
-        "sinon": "1.6.x"
+        "buster": "0.7.x",
+        "sinon": "1.17.x"
     },
-    "license": "BSD"
+    "license": "BSD",
+    "scripts": {
+        "test": "node run-tests.js"
+    }
 }

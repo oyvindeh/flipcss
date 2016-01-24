@@ -8,6 +8,9 @@ if (typeof require !== "undefined") {
     var lib = require("../lib/flipcss");
 }
 
+var assert = buster.referee.assert;
+var refute = buster.referee.refute;
+
 
 buster.assertions.add("pathFlipsTo", {
     assert: function (inputPath, expectedOutputPath) {

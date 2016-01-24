@@ -7,6 +7,9 @@ if (typeof require !== "undefined") {
     var lib = require("../bin/flipcss.bin.js");
 }
 
+var assert = buster.referee.assert;
+var refute = buster.referee.refute;
+
 
 buster.testCase("Command line arguments parser", {
     "works with no arguments": function() {
